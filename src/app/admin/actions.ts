@@ -117,3 +117,23 @@ export async function revokeKeyAction(id: number, revoked: boolean) {
   await ensureSchema();
   await sql()`UPDATE api_keys SET revoked = ${revoked} WHERE id = ${id}`;
 }
+
+export type ProviderTest = {
+  ok: boolean;
+  reply?: string;
+  attempts: { provider: string; model: string; status: number; detail: string }[];
+};
+
+// Sends a tiny prompt through the provider chain and reports every attempt.
+export async function testProvidersAction(): Promise<ProviderTest> {
+  await requireAdmin();
+  const { callQud } = await import("@/lib/qud");
+  const attempts: ProviderTest["attempts"] = [];
+  try {
+    const res = await callQud([{ role: "user", content: "Reply with exactly: Qud-1 online" }], { stream: false, maxTokens: 20 }, attempts);
+    const json = (await res.json()) as { choices?: { message?: { content?: string } }[] };
+    return { ok: true, reply: json.choices?.[0]?.message?.content ?? "", attempts };
+  } catch {
+    return { ok: false, attempts };
+  }
+}

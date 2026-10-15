@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import { SECTIONS } from "@/lib/admin-schema";
 import { getAdmin, usingDefaultPassword } from "@/lib/auth";
 import { readContent } from "@/lib/content";
+import { blobMode } from "@/lib/blob-config";
 import { ensureSchema, hasDatabase, sql } from "@/lib/db";
 
 async function Overview() {
@@ -15,7 +16,7 @@ async function Overview() {
     const rows = (await sql()`SELECT count(*)::int AS n FROM messages WHERE read = false`) as { n: number }[];
     unread = rows[0]?.n ?? 0;
   }
-  const blob = Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+  const blob = blobMode();
 
   return (
     <div className="py-8">
@@ -30,10 +31,12 @@ async function Overview() {
           </span>
         </Link>
       )}
-      {!blob && (
+      {blob !== "client" && (
         <div className="mt-4 flex items-start gap-3 rounded-2xl border border-line p-4 text-sm text-muted">
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
-          File uploads need BLOB_READ_WRITE_TOKEN. Connect a Blob store to this project in Vercel → Storage. You can still paste media URLs.
+          {blob === "none"
+            ? "File uploads need Blob storage. Connect a Blob store to this project in Vercel → Storage, then redeploy. You can still paste media URLs."
+            : "Uploads work up to 4 MB. For large videos and 3D models, add BLOB_READ_WRITE_TOKEN (Vercel → Storage → your Blob store → .env.local tab) to this project's environment variables."}
         </div>
       )}
 

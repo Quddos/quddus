@@ -2,14 +2,58 @@ import { getVercelOidcToken } from "@vercel/oidc";
 
 export const QUD_MODEL = "qud-1";
 
-const GATEWAY_URL = `${process.env.AI_GATEWAY_URL || "https://ai-gateway.vercel.sh/v1"}/chat/completions`;
+type Provider = { name: string; baseUrl: string; models: string[]; token: () => Promise<string> };
 
-// Open-weight base models tried in order. Override with QUD_BASE_MODELS
-// (comma-separated AI Gateway model IDs), e.g. once Qud-1's own weights are hosted.
-const BASE_MODELS = (process.env.QUD_BASE_MODELS || "openai/gpt-oss-120b,meta/llama-3.3-70b,alibaba/qwen-3-32b")
-  .split(",")
-  .map((m) => m.trim())
-  .filter(Boolean);
+const list = (value: string | undefined, fallback: string) =>
+  (value || fallback)
+    .split(",")
+    .map((m) => m.trim())
+    .filter(Boolean);
+
+const staticToken = (value: string) => async () => value;
+
+// Free-tier providers with OpenAI-compatible APIs, tried in order. Each is used only
+// when its key is set; model lists can be overridden with <NAME>_MODELS.
+export function providers(): Provider[] {
+  const out: Provider[] = [];
+  const env = process.env;
+  if (env.GROQ_API_KEY)
+    out.push({
+      name: "Groq",
+      baseUrl: "https://api.groq.com/openai/v1",
+      models: list(env.GROQ_MODELS, "openai/gpt-oss-120b,llama-3.3-70b-versatile,qwen/qwen3-32b"),
+      token: staticToken(env.GROQ_API_KEY),
+    });
+  if (env.CEREBRAS_API_KEY)
+    out.push({
+      name: "Cerebras",
+      baseUrl: "https://api.cerebras.ai/v1",
+      models: list(env.CEREBRAS_MODELS, "gpt-oss-120b,llama-3.3-70b"),
+      token: staticToken(env.CEREBRAS_API_KEY),
+    });
+  if (env.OPENROUTER_API_KEY)
+    out.push({
+      name: "OpenRouter",
+      baseUrl: "https://openrouter.ai/api/v1",
+      models: list(env.OPENROUTER_MODELS, "openai/gpt-oss-120b:free,meta-llama/llama-3.3-70b-instruct:free"),
+      token: staticToken(env.OPENROUTER_API_KEY),
+    });
+  if (env.HF_TOKEN)
+    out.push({
+      name: "Hugging Face",
+      baseUrl: "https://router.huggingface.co/v1",
+      models: list(env.HF_MODELS, "openai/gpt-oss-120b,meta-llama/Llama-3.3-70B-Instruct"),
+      token: staticToken(env.HF_TOKEN),
+    });
+  // Vercel AI Gateway last: uses the deployment's OIDC token or AI_GATEWAY_API_KEY.
+  out.push({
+    name: "Vercel AI Gateway",
+    baseUrl: env.AI_GATEWAY_URL || "https://ai-gateway.vercel.sh/v1",
+    models: list(env.QUD_BASE_MODELS, "openai/gpt-oss-120b,meta/llama-3.3-70b,alibaba/qwen-3-32b"),
+    token: async () => env.AI_GATEWAY_API_KEY || (await getVercelOidcToken()),
+  });
+  return out;
+}
 
 export const QUD_SYSTEM_PROMPT = `You are Qud-1, an open AI assistant created by Raheem Qudus (PhD researcher, SRM University-AP) for builders working on XR and neurotechnology.
 Your strengths:
@@ -23,11 +67,6 @@ If asked who made you, say Qud-1 was created by Raheem Qudus; it currently runs 
 
 export type ChatMessage = { role: "system" | "user" | "assistant"; content: string };
 
-export async function gatewayToken() {
-  if (process.env.AI_GATEWAY_API_KEY) return process.env.AI_GATEWAY_API_KEY;
-  return getVercelOidcToken();
-}
-
 export class GatewayError extends Error {
   constructor(
     message: string,
@@ -37,45 +76,59 @@ export class GatewayError extends Error {
   }
 }
 
-// Calls AI Gateway with Qud-1's system prompt, falling back through base models
-// when one is unavailable. Returns the raw upstream response.
+export type Attempt = { provider: string; model: string; status: number; detail: string };
+
+async function attempt(provider: Provider, model: string, body: Record<string, unknown>) {
+  let token: string;
+  try {
+    token = await provider.token();
+  } catch (e) {
+    return { res: null, status: 0, detail: `No credentials: ${(e as Error).message}` };
+  }
+  try {
+    const res = await fetch(`${provider.baseUrl}/chat/completions`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ ...body, model }),
+      signal: AbortSignal.timeout(45_000),
+    });
+    if (res.ok) return { res, status: res.status, detail: "ok" };
+    return { res: null, status: res.status, detail: (await res.text().catch(() => "")).slice(0, 300) };
+  } catch (e) {
+    return { res: null, status: 0, detail: (e as Error).message };
+  }
+}
+
+// Calls the first provider/model that answers, with Qud-1's system prompt.
+// Returns the raw upstream response (SSE when streaming).
 export async function callQud(
   messages: ChatMessage[],
   opts: { stream: boolean; maxTokens: number; temperature?: number },
+  log?: Attempt[],
 ): Promise<Response> {
-  let token: string;
-  try {
-    token = await gatewayToken();
-  } catch {
-    throw new GatewayError("The AI backend isn't configured on this deployment.", 503);
-  }
   const userSystem = messages.filter((m) => m.role === "system").map((m) => m.content);
   const system = [QUD_SYSTEM_PROMPT, ...userSystem].join("\n\n");
-  const convo = messages.filter((m) => m.role !== "system");
-
-  let last: Response | null = null;
-  for (const model of BASE_MODELS) {
-    const res = await fetch(GATEWAY_URL, {
-      method: "POST",
-      headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model,
-        messages: [{ role: "system", content: system }, ...convo],
-        stream: opts.stream,
-        max_tokens: opts.maxTokens,
-        temperature: opts.temperature ?? 0.6,
-      }),
-    });
-    if (res.ok) return res;
-    last = res;
-    // Only fall through to the next model when this one is missing or unavailable.
-    if (![400, 404, 422, 503].includes(res.status)) break;
+  const body = {
+    messages: [{ role: "system", content: system }, ...messages.filter((m) => m.role !== "system")],
+    stream: opts.stream,
+    max_tokens: opts.maxTokens,
+    temperature: opts.temperature ?? 0.6,
+  };
+  let rateLimited = false;
+  for (const provider of providers()) {
+    for (const model of provider.models) {
+      const r = await attempt(provider, model, body);
+      log?.push({ provider: provider.name, model, status: r.status, detail: r.detail });
+      if (r.res) return r.res;
+      if (r.status === 429) rateLimited = true;
+      console.error(`Qud-1 ${provider.name} ${model} failed`, r.status, r.detail);
+      // Bad credentials won't work for other models of the same provider.
+      if (r.status === 401 || r.status === 403 || r.status === 0) break;
+    }
   }
-  const detail = last ? await last.text().catch(() => "") : "";
-  console.error("AI Gateway error", last?.status, detail.slice(0, 500));
   throw new GatewayError(
-    last?.status === 429 ? "The model is busy. Please retry in a moment." : "The model is temporarily unavailable.",
-    last?.status === 429 ? 429 : 502,
+    rateLimited ? "The model is busy. Please retry in a moment." : "The model is temporarily unavailable.",
+    rateLimited ? 429 : 502,
   );
 }
 

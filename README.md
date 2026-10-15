@@ -18,8 +18,11 @@ An immersive portfolio built with Next.js 16, React Three Fiber and a small admi
 | `ADMIN_PASSWORD` | Initial admin password (8+ characters). Used once, on first login, to create the account. |
 | `ADMIN_USERNAME` | Optional. Initial admin username (default `admin`). |
 | `NEXT_PUBLIC_SITE_URL` | Optional. Canonical URL for metadata and API examples. |
-| `AI_GATEWAY_API_KEY` | Optional. Qud-1 calls Vercel AI Gateway with the deployment's OIDC token; set this only to use a gateway key instead. |
-| `QUD_BASE_MODELS` | Optional. Comma-separated AI Gateway model IDs behind `qud-1`, tried in order. |
+| `GROQ_API_KEY` | Recommended. Free Groq key; Qud-1's first provider. |
+| `CEREBRAS_API_KEY` / `OPENROUTER_API_KEY` / `HF_TOKEN` | Optional free fallbacks, tried in that order after Groq. |
+| `GROQ_MODELS`, `CEREBRAS_MODELS`, `OPENROUTER_MODELS`, `HF_MODELS` | Optional. Comma-separated model IDs per provider. |
+| `AI_GATEWAY_API_KEY` / `QUD_BASE_MODELS` | Optional. Vercel AI Gateway is the last fallback, using the deployment's OIDC token unless a key is set. |
+| `BLOB_STORE_ID` | Set automatically when Blob is connected via OIDC; enables uploads up to 4 MB. `BLOB_READ_WRITE_TOKEN` enables large uploads. |
 | `QUD_KEY_DAILY_LIMIT` / `QUD_PLAYGROUND_DAILY_LIMIT` / `QUD_GLOBAL_DAILY_LIMIT` | Optional. Free-tier limits (defaults 200 per key, 30 per playground visitor, 3000 site-wide per day). |
 
 Without a database, the site renders the default content from `src/lib/seed.ts`.

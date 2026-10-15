@@ -1,8 +1,10 @@
 import { Suspense } from "react";
 import { KeyTable, type KeyRow } from "@/components/admin/KeyTable";
+import { ProviderTest } from "@/components/admin/ProviderTest";
 import { LIMITS } from "@/lib/api-keys";
 import { getAdmin } from "@/lib/auth";
 import { ensureSchema, hasDatabase, sql } from "@/lib/db";
+import { providers } from "@/lib/qud";
 
 async function Keys() {
   if (!(await getAdmin()) || !hasDatabase()) return <p className="py-10 text-muted">Database not configured.</p>;
@@ -38,6 +40,7 @@ async function Keys() {
           </div>
         ))}
       </div>
+      <ProviderTest configured={providers().map((p) => p.name)} />
       <div className="mt-6 rounded-2xl border border-line bg-bg-2 p-5">
         <div className="mono-label mb-4">Requests, last 7 days</div>
         <div className="flex h-28 items-end gap-2">

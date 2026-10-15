@@ -16,6 +16,23 @@ export function MediaField({ value, onChange }: { value: string; onChange: (v: s
     setError("");
     setProgress(0);
     try {
+      const status = await fetch("/api/admin/upload").then((r) => r.json());
+      if (status.mode === "none") {
+        throw new Error(
+          "Blob storage isn't connected. In Vercel: Storage → your Blob store → Connect to this project (or add BLOB_READ_WRITE_TOKEN), then redeploy. You can paste a URL meanwhile.",
+        );
+      }
+      if (status.mode === "server") {
+        if (file.size > status.serverLimit)
+          throw new Error("Files over 4 MB need BLOB_READ_WRITE_TOKEN on the Vercel project. Paste a link (e.g. YouTube) instead for now.");
+        const body = new FormData();
+        body.append("file", file);
+        const res = await fetch("/api/admin/upload/server", { method: "POST", body });
+        const json = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(json.error || "Upload failed.");
+        onChange(json.url);
+        return;
+      }
       const blob = await upload(`portfolio/${file.name}`, file, {
         access: "public",
         handleUploadUrl: "/api/admin/upload",
@@ -24,7 +41,7 @@ export function MediaField({ value, onChange }: { value: string; onChange: (v: s
       });
       onChange(blob.url);
     } catch (e) {
-      setError((e as Error).message || "Upload failed. Is BLOB_READ_WRITE_TOKEN set?");
+      setError((e as Error).message || "Upload failed.");
     } finally {
       setProgress(null);
     }
