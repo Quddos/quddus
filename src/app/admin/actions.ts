@@ -111,3 +111,9 @@ export async function messageAction(id: number, op: "read" | "unread" | "delete"
   if (op === "delete") await sql()`DELETE FROM messages WHERE id = ${id}`;
   else await sql()`UPDATE messages SET read = ${op === "read"} WHERE id = ${id}`;
 }
+
+export async function revokeKeyAction(id: number, revoked: boolean) {
+  await requireAdmin();
+  await ensureSchema();
+  await sql()`UPDATE api_keys SET revoked = ${revoked} WHERE id = ${id}`;
+}

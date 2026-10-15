@@ -1,4 +1,4 @@
-import { ExternalLink, Inbox, LayoutDashboard, LogOut, Settings } from "lucide-react";
+import { ExternalLink, Inbox, KeyRound, LayoutDashboard, LogOut, Settings } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
@@ -23,6 +23,9 @@ async function Shell({ children }: { children: React.ReactNode }) {
           </Link>
           <Link href="/admin/messages" className={item}>
             <Inbox className="h-4 w-4" /> Messages
+          </Link>
+          <Link href="/admin/api" className={item}>
+            <KeyRound className="h-4 w-4" /> API keys
           </Link>
           <div className="mono-label hidden px-3 pb-1 pt-5 md:block">Content</div>
           {SECTIONS.map((s) => (

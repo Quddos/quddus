@@ -74,7 +74,8 @@ export function CommandPalette({
                 ["/#lab", "The Lab: projects", FlaskConical],
                 ["/#research", "Research & patents", FileText],
                 ["/#network", "Connectome: collaborators & mentees", Network],
-                ["/#hub", "AI Hub & free API", Sparkles],
+                ["/#hub", "AI Hub: chat with Qud-1", Sparkles],
+                ["/developers", "Developers: free API key & docs", Sparkles],
                 ["/#contact", "Contact", AtSign],
               ].map(([href, label, Icon]) => {
                 const I = Icon as typeof FlaskConical;

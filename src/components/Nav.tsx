@@ -11,6 +11,7 @@ const links = [
   { href: "/#journey", label: "Journey" },
   { href: "/#network", label: "Network" },
   { href: "/#hub", label: "AI Hub" },
+  { href: "/developers", label: "API" },
   { href: "/#contact", label: "Contact" },
 ];
 

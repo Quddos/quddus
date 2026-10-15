@@ -40,6 +40,25 @@ export function ensureSchema() {
       read boolean NOT NULL DEFAULT false,
       created_at timestamptz NOT NULL DEFAULT now()
     )`;
+    await q`CREATE TABLE IF NOT EXISTS api_keys (
+      id serial PRIMARY KEY,
+      name text NOT NULL,
+      email text NOT NULL,
+      purpose text NOT NULL DEFAULT '',
+      prefix text NOT NULL,
+      key_hash text NOT NULL UNIQUE,
+      ip_hash text NOT NULL DEFAULT '',
+      revoked boolean NOT NULL DEFAULT false,
+      created_at timestamptz NOT NULL DEFAULT now(),
+      last_used_at timestamptz
+    )`;
+    // One row per caller per day; caller is "key:<id>" or "ip:<hash>" for the playground.
+    await q`CREATE TABLE IF NOT EXISTS api_usage (
+      caller text NOT NULL,
+      day date NOT NULL DEFAULT current_date,
+      requests integer NOT NULL DEFAULT 0,
+      PRIMARY KEY (caller, day)
+    )`;
   })().catch((err) => {
     schemaReady = null;
     throw err;
