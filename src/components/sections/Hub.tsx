@@ -15,7 +15,7 @@ const statusStyle: Record<string, string> = {
   Planned: "text-muted border-line-strong",
 };
 
-const API = `${(process.env.NEXT_PUBLIC_SITE_URL || "https://quddus.vercel.app").replace(/\/$/, "")}/api/v1`;
+const API = `${(process.env.NEXT_PUBLIC_SITE_URL || "https://quddus.diaspafra.org").replace(/\/$/, "")}/api/v1`;
 
 const snippets = {
   cURL: `curl ${API}/chat/completions \\

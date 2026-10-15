@@ -6,7 +6,7 @@ const display = Space_Grotesk({ subsets: ["latin"], variable: "--font-display", 
 const body = Inter({ subsets: ["latin"], variable: "--font-body" });
 const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://quddus.vercel.app";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://quddus.diaspafra.org";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
