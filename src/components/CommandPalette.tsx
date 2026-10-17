@@ -79,6 +79,7 @@ export function CommandPalette({
                 ["/developers", "Developers: free API key & docs", Sparkles],
                 ["/demos/qudmi", "QUDMI live demo: full body from 3 trackers", Sparkles],
                 ["/demos/eeg", "EEG Biomarker tool: analyse a recording", Sparkles],
+                ["/demos/rilstudio", "RILstudio: teach an agent by demonstration or reward", Sparkles],
                 ["/vr", "The Lab in VR (WebXR)", Sparkles],
                 ["/#contact", "Contact", AtSign],
               ].map(([href, label, Icon]) => {

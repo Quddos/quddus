@@ -174,7 +174,7 @@ export const SECTIONS: SectionSchema[] = [
     subtitleKey: "status",
     fields: [
       { key: "name", label: "Name", type: "text" },
-      { key: "kind", label: "Kind", type: "select", options: ["LLM", "VLM", "Motion model", "Signal pipeline"] },
+      { key: "kind", label: "Kind", type: "select", options: ["LLM", "VLM", "Motion model", "Signal pipeline", "Learning studio"] },
       { key: "status", label: "Status", type: "select", options: ["Live", "Training", "Coming soon", "Planned"] },
       { key: "endpoint", label: "Endpoint", type: "text" },
       { key: "description", label: "Description", type: "textarea", wide: true },

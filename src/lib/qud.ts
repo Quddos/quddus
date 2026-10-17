@@ -2,7 +2,20 @@ import { getVercelOidcToken } from "@vercel/oidc";
 
 export const QUD_MODEL = "qud-1";
 
-type Provider = { name: string; baseUrl: string; models: string[]; token: () => Promise<string> };
+type Provider = {
+  name: string;
+  baseUrl: string;
+  models: string[];
+  token: () => Promise<string>;
+  // Seconds to wait for the response to start before trying the next provider.
+  startTimeout?: number;
+  // Told to the model so it describes itself truthfully.
+  identity?: string;
+  // The small self-hosted model: used for Qud-1 chat, not for long custom prompts.
+  own?: boolean;
+};
+
+const STAND_IN = "Right now you are running on a larger open-weight model standing in for Qud-1's own fine-tuned weights.";
 
 const list = (value: string | undefined, fallback: string) =>
   (value || fallback)
@@ -17,9 +30,22 @@ const staticToken = (value: string) => async () => value;
 export function providers(): Provider[] {
   const out: Provider[] = [];
   const env = process.env;
+  // Qud-1's own fine-tuned weights, self-hosted (see training/qud-1). A sleeping
+  // free Space can take minutes to wake, so give up quickly and fall through.
+  if (env.QUD1_BASE_URL)
+    out.push({
+      name: "Qud-1 (fine-tuned)",
+      baseUrl: env.QUD1_BASE_URL.replace(/\/+$/, ""),
+      models: list(env.QUD1_MODELS, "qud-1"),
+      token: staticToken(env.QUD1_API_KEY || ""),
+      startTimeout: Number(env.QUD1_START_TIMEOUT) || 12,
+      identity: "You are running on Qud-1's own fine-tuned open weights (huggingface.co/quddusr/qud-1).",
+      own: true,
+    });
   if (env.GROQ_API_KEY)
     out.push({
       name: "Groq",
+      identity: STAND_IN,
       baseUrl: "https://api.groq.com/openai/v1",
       models: list(env.GROQ_MODELS, "openai/gpt-oss-120b,llama-3.3-70b-versatile,qwen/qwen3-32b"),
       token: staticToken(env.GROQ_API_KEY),
@@ -27,6 +53,7 @@ export function providers(): Provider[] {
   if (env.CEREBRAS_API_KEY)
     out.push({
       name: "Cerebras",
+      identity: STAND_IN,
       baseUrl: "https://api.cerebras.ai/v1",
       models: list(env.CEREBRAS_MODELS, "gpt-oss-120b,llama-3.3-70b"),
       token: staticToken(env.CEREBRAS_API_KEY),
@@ -34,6 +61,7 @@ export function providers(): Provider[] {
   if (env.OPENROUTER_API_KEY)
     out.push({
       name: "OpenRouter",
+      identity: STAND_IN,
       baseUrl: "https://openrouter.ai/api/v1",
       models: list(env.OPENROUTER_MODELS, "openai/gpt-oss-120b:free,meta-llama/llama-3.3-70b-instruct:free"),
       token: staticToken(env.OPENROUTER_API_KEY),
@@ -41,6 +69,7 @@ export function providers(): Provider[] {
   if (env.HF_TOKEN)
     out.push({
       name: "Hugging Face",
+      identity: STAND_IN,
       baseUrl: "https://router.huggingface.co/v1",
       models: list(env.HF_MODELS, "openai/gpt-oss-120b,meta-llama/Llama-3.3-70B-Instruct"),
       token: staticToken(env.HF_TOKEN),
@@ -48,6 +77,7 @@ export function providers(): Provider[] {
   // Vercel AI Gateway last: uses the deployment's OIDC token or AI_GATEWAY_API_KEY.
   out.push({
     name: "Vercel AI Gateway",
+    identity: STAND_IN,
     baseUrl: env.AI_GATEWAY_URL || "https://ai-gateway.vercel.sh/v1",
     models: list(env.QUD_BASE_MODELS, "openai/gpt-oss-120b,meta/llama-3.3-70b,alibaba/qwen-3-32b"),
     token: async () => env.AI_GATEWAY_API_KEY || (await getVercelOidcToken()),
@@ -63,7 +93,7 @@ Your strengths:
 - General programming and ML engineering.
 Be accurate and practical. Prefer working code with brief explanations. Say when you are unsure.
 For medical topics, give research and educational information only, never diagnosis or treatment advice.
-If asked who made you, say Qud-1 was created by Raheem Qudus; it currently runs on an open-weight base model while its fine-tuned weights are being trained.`;
+If asked who made you, say Qud-1 was created by Raheem Qudus.`;
 
 export type ChatMessage = { role: "system" | "user" | "assistant"; content: string };
 
@@ -78,24 +108,36 @@ export class GatewayError extends Error {
 
 export type Attempt = { provider: string; model: string; status: number; detail: string };
 
-async function attempt(provider: Provider, model: string, body: Record<string, unknown>) {
+function withIdentity(messages: ChatMessage[], identity?: string): ChatMessage[] {
+  if (!identity) return messages;
+  const [system, ...rest] = messages;
+  return [{ ...system, content: `${system.content}\n${identity}` }, ...rest];
+}
+
+async function attempt(provider: Provider, model: string, body: Record<string, unknown>, identity?: string) {
   let token: string;
   try {
     token = await provider.token();
   } catch (e) {
     return { res: null, status: 0, detail: `No credentials: ${(e as Error).message}` };
   }
+  // The timeout covers the wait for the response to start, not the stream itself,
+  // so a slow CPU-hosted model can finish a long answer.
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(new Error("Timed out waiting for the model")), (provider.startTimeout ?? 45) * 1000);
   try {
     const res = await fetch(`${provider.baseUrl}/chat/completions`, {
       method: "POST",
       headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ ...body, model }),
-      signal: AbortSignal.timeout(45_000),
+      body: JSON.stringify({ ...body, messages: withIdentity(body.messages as ChatMessage[], identity), model }),
+      signal: controller.signal,
     });
     if (res.ok) return { res, status: res.status, detail: "ok" };
     return { res: null, status: res.status, detail: (await res.text().catch(() => "")).slice(0, 300) };
   } catch (e) {
     return { res: null, status: 0, detail: (e as Error).message };
+  } finally {
+    clearTimeout(timer);
   }
 }
 
@@ -115,9 +157,10 @@ export async function callQud(
     temperature: opts.temperature ?? 0.6,
   };
   let rateLimited = false;
-  for (const provider of providers()) {
+  // Custom system prompts (the site guide) carry long context, so they go to the larger models.
+  for (const provider of providers().filter((p) => !(opts.system && p.own))) {
     for (const model of provider.models) {
-      const r = await attempt(provider, model, body);
+      const r = await attempt(provider, model, body, opts.system ? undefined : provider.identity);
       log?.push({ provider: provider.name, model, status: r.status, detail: r.detail });
       if (r.res) return r.res;
       if (r.status === 429) rateLimited = true;

@@ -4,6 +4,7 @@ import { Command } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { openPalette } from "./CommandPalette";
+import { VrButton } from "./vr/VrButton";
 
 const links = [
   { href: "/#lab", label: "Lab" },
@@ -37,7 +38,9 @@ export function Nav({ name }: { name: string }) {
           <span className="relative grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-cyan to-violet font-display text-xs font-bold text-bg">
             {initials}
           </span>
-          <span className="hidden font-display text-sm font-medium tracking-tight sm:block">{name}</span>
+          <span className="hidden font-display text-sm font-medium tracking-tight sm:block">
+            {name}
+          </span>
         </Link>
         <div className="hidden items-center gap-1 md:flex">
           {links.map((l) => (
@@ -50,15 +53,18 @@ export function Nav({ name }: { name: string }) {
             </a>
           ))}
         </div>
-        <button
-          onClick={openPalette}
-          className="glass flex items-center gap-2 rounded-full px-3 py-1.5 text-xs text-muted transition hover:text-fg"
-          aria-label="Open command palette"
-        >
-          <Command className="h-3.5 w-3.5" />
-          <span className="font-mono">K</span>
-          <span className="hidden sm:inline">Command</span>
-        </button>
+        <div className="flex items-center gap-2">
+          <VrButton variant="nav" />
+          <button
+            onClick={openPalette}
+            className="glass flex items-center gap-2 rounded-full px-3 py-1.5 text-xs text-muted transition hover:text-fg"
+            aria-label="Open command palette"
+          >
+            <Command className="h-3.5 w-3.5" />
+            <span className="font-mono">K</span>
+            <span className="hidden sm:inline">Command</span>
+          </button>
+        </div>
       </nav>
     </header>
   );

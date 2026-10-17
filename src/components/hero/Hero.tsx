@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowDown, ArrowUpRight, Sparkles } from "lucide-react";
 import type { Profile } from "@/lib/types";
 import type { HeroState } from "./HeroCanvas";
+import { VrButton } from "../vr/VrButton";
 
 const HeroCanvas = dynamic(() => import("./HeroCanvas"), { ssr: false });
 
@@ -130,6 +131,7 @@ export function Hero({ profile, peopleCount, projectCount }: { profile: Profile;
               >
                 <Sparkles className="h-4 w-4 text-cyan" /> AI Hub & free API
               </a>
+              <VrButton variant="hero" />
             </div>
           </div>
         </div>

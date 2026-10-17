@@ -1,0 +1,219 @@
+# Questions the teacher model answers as Qud-1 (one per line; # lines are skipped).
+# Add your own: anything XR, EEG/BCI or healthcare-AI builders actually ask.
+
+# --- Unity and XR development
+How do I set up a new Unity 6 project for Meta Quest 3 development?
+What is the difference between OVRCameraRig and the XR Origin in Unity?
+How do I implement grab interactions with the Meta Interaction SDK?
+How do I implement grab interactions with the XR Interaction Toolkit?
+How do I add teleport locomotion with the XR Interaction Toolkit?
+How do I implement snap turning in Unity for VR?
+How do I add a comfort vignette during smooth locomotion?
+How do I read the thumbstick and trigger values with OVRInput?
+How do I read controller input with the Unity Input System for OpenXR?
+How do I get hand joint positions with the XR Hands package?
+How do I detect a thumbs-up gesture with hand tracking?
+How do I make UI work with hand poke interactions in VR?
+How do I build a world-space canvas that is readable in VR?
+What text size and distance should I use for UI in VR?
+How do I use spatial anchors on Quest to keep objects in place between sessions?
+How do I use the MR Utility Kit to place objects on real tables?
+How do I use the Scene API to get the room walls on Quest 3?
+How do I implement colocated multiplayer with shared spatial anchors?
+How do I use the Meta Movement SDK for body tracking?
+How do I map Quest face tracking to blendshapes on an avatar?
+How do I use eye tracking on Quest Pro in Unity?
+How do I enable dynamic foveated rendering on Quest?
+What URP settings should I use for a Quest 3 game?
+How do I reduce draw calls in a VR scene?
+How do I bake lighting for a Quest scene?
+Why are my textures blurry on Quest and how do I fix it?
+How do I use GPU instancing for many objects in VR?
+How do I avoid garbage collection spikes in Unity?
+How do I profile a Quest build with the Unity Profiler over Wi-Fi?
+How do I use OVR Metrics Tool to check performance?
+What does the VrApi logcat line tell me?
+How do I load scenes asynchronously in VR without stutter?
+How do I record a video from my Quest app for a paper?
+How do I cast my Quest screen to a PC during a user study?
+How do I build an Android APK and install it with adb?
+How do I sideload an app to Quest using Meta Quest Developer Hub?
+How do I set up physics-based hands that don't pass through objects?
+How do I implement two-handed grabbing and scaling?
+How do I make a VR button that you press with your finger?
+How do I spawn objects in front of the user's head?
+How do I recenter the view in a Quest app?
+How do I handle the user taking off the headset (focus lost)?
+How do I save and load user data on Quest?
+How do I make an avatar's arms follow the controllers with IK?
+How do I use Animation Rigging Two Bone IK for VR arms?
+How do I implement a full-body avatar from head and hand tracking?
+How do I make a mirror in VR that performs well?
+How do I add spatial audio in Unity for VR?
+How do I show a passthrough window inside a VR scene?
+How do I blend virtual objects with passthrough so they look grounded?
+How do I add occlusion of virtual objects by real hands in mixed reality?
+How do I use the Depth API on Quest 3?
+How do I create a portal effect in Unity URP?
+How do I write a simple unlit shader for Quest in Shader Graph?
+How do I implement a laser pointer for UI selection?
+How do I make a VR tutorial that teaches controls?
+How do I localise text in a Unity VR app?
+How do I send data from Unity to a Python server over UDP?
+How do I connect Unity to a WebSocket server?
+How do I call a REST API from Unity with UnityWebRequest?
+How do I call an LLM API from Unity for an NPC?
+How do I add voice input to a Unity VR app?
+How do I run a small neural network on Quest with Unity Inference Engine (Sentis)?
+How do I use ML-Agents to train an agent in Unity?
+How do I record user movement data in VR for analysis?
+How do I log head and hand poses at 72 Hz to CSV in Unity?
+How do I synchronise Unity events with EEG using LSL markers?
+What is OpenXR and why does it matter?
+How does WebXR differ from native Quest apps?
+How do I build a WebXR app with React Three Fiber?
+How do I add hand tracking in a WebXR app?
+How do I test WebXR without a headset?
+How do I make a WebXR experience work on both desktop and Quest?
+How do I load a GLB model in three.js with Draco compression?
+How do I optimise a GLB model for the web?
+How do I build an AR app for Android phones with AR Foundation?
+How do I detect planes with AR Foundation?
+How do I port my Quest app to Pico?
+How do I submit an app to the Meta Horizon Store?
+What are the Meta Horizon Store technical requirements I should check early?
+How do I design a VR experience for people with limited mobility?
+How do I make VR accessible for seated users?
+How do I design VR rehabilitation exercises for upper-limb stroke patients?
+How do I measure range of motion with VR controllers?
+How do I build a VR exposure therapy scenario responsibly?
+How do I design a VR surgical training simulator with assessment?
+How do I evaluate presence in a VR study?
+Which questionnaires measure presence, usability and cybersickness in VR studies?
+How do I run a within-subjects VR user study?
+
+# --- EEG, BCI and neurotech
+How do I import Emotiv EPOC X CSV data into MNE?
+How do I create epochs around events in MNE?
+How do I find events from a stim channel in MNE?
+How do I use annotations to mark bad segments in MNE?
+How do I interpolate bad EEG channels?
+How do I choose a reference for EEG?
+What is the difference between average and linked-mastoid reference?
+How do I compute an ERP and plot it in MNE?
+How do I do time-frequency analysis with Morlet wavelets in MNE?
+How do I compute event-related desynchronisation (ERD/ERS)?
+How do I plot a topographic map of alpha power?
+How do I use Autoreject for EEG epochs?
+What is artifact subspace reconstruction (ASR) and when should I use it?
+How do I detect muscle artifacts in EEG?
+How do I detect and remove line noise at 50 Hz?
+What is the difference between FIR and IIR filters for EEG?
+Why should I use zero-phase filtering offline but causal filtering online?
+How do I design a real-time band-pass filter in Python with persistent state?
+How do I compute individual alpha peak frequency?
+What is the theta/beta ratio and what are its limitations?
+How do I compute the engagement index beta/(alpha+theta)?
+How do I measure mental workload with EEG?
+How do I detect drowsiness from EEG?
+How do I measure attention with a consumer EEG headset?
+How reliable are consumer EEG devices like Emotiv or Muse for research?
+What are the pros and cons of dry versus wet EEG electrodes?
+How do I check EEG signal quality and impedance?
+How do I build an SSVEP speller with CCA?
+How do I build a P300 speller pipeline in Python?
+How do I use pyRiemann for EEG classification?
+How do I train EEGNet with braindecode?
+How do I do transfer learning across subjects for BCI?
+How much training data do I need for a motor imagery BCI?
+How do I compute information transfer rate for a BCI?
+How do I evaluate a BCI fairly against chance level?
+How do I compute coherence between EEG channels?
+How do I compute phase locking value?
+What is source localisation and can I do it with 14 channels?
+How do I use EEG to estimate emotional valence and arousal?
+What datasets are good for practising EEG analysis?
+How do I convert EEG data to BIDS format?
+How do I record EEG and VR data together with LabRecorder?
+How do I read an XDF file in Python?
+How do I build a neurofeedback game that rewards relaxation?
+How do I control a VR object with EEG in real time?
+How do I use EEG to adapt difficulty in a VR rehabilitation game?
+How do I combine EEG with eye tracking in VR?
+How do I combine EEG with heart rate variability?
+How do I compute HRV from ECG or PPG in Python?
+How do I measure galvanic skin response and use it in VR?
+How does fNIRS compare with EEG for VR studies?
+What are the ethical issues with neurotechnology and brain data privacy?
+What is a brain-computer interface and how does it work?
+How do non-invasive and invasive BCIs differ?
+Explain the 10-20 electrode system.
+What frequency bands are used in EEG and what are they associated with?
+Explain what an event-related potential is.
+Why does alpha power increase when eyes are closed?
+What is mu rhythm suppression?
+
+# --- ML, imitation learning and healthcare AI
+Explain imitation learning to a beginner.
+What is DAgger and why does it help behaviour cloning?
+What is inverse reinforcement learning?
+Explain Double DQN versus DQN.
+What is PPO and when should I use it?
+How do I design a reward function for a robot reaching task?
+How do I train a policy from VR demonstrations?
+How do I train a model to predict full-body pose from sparse trackers?
+What is the AMASS dataset and what are its license restrictions?
+What is the SMPL body model?
+What is the 6D rotation representation and why is it used?
+How do I evaluate pose estimation with MPJPE?
+How do I train a small transformer on time-series data in PyTorch?
+How do I handle class imbalance in medical data?
+How do I do subject-wise cross-validation?
+How do I calibrate a classifier's probabilities?
+What metrics should I report for a diagnostic model?
+How do I compute sensitivity, specificity and AUC in Python?
+How do I use SHAP with a neural network?
+How do I deploy a PyTorch model as an API with FastAPI?
+How do I quantise a model to run faster on CPU?
+How do I run ONNX models in the browser with ONNX Runtime Web?
+How do I run TensorFlow.js models in the browser?
+How do I fine-tune a small language model with LoRA?
+What is retrieval-augmented generation and how do I build it?
+How do I evaluate an LLM for a domain-specific assistant?
+How do I build an AI agent that can call tools?
+How do I use a vision-language model to describe images?
+How do I write the methods section for a VR rehabilitation study?
+How do I choose between a t-test and a Mann-Whitney U test?
+How do I run a repeated-measures ANOVA in Python?
+How do I use linear mixed models for repeated measures data?
+How do I report effect sizes?
+How do I pre-register a study?
+How do I write a good related work section?
+How do I respond to reviewer comments effectively?
+What should I include in an ethics application for a VR and EEG study?
+How do I file a patent for a research prototype?
+How do I make my research code reproducible?
+How do I publish a Unity package on OpenUPM?
+How do I publish a model on Hugging Face with a model card?
+
+# --- General programming
+How do I set up a Python virtual environment for a research project?
+How do I structure a Python package with a CLI?
+How do I write unit tests with pytest?
+How do I use Git branches for experiments?
+How do I write a GitHub Actions workflow to run tests?
+How do I build a Next.js API route that streams responses?
+How do I deploy a Next.js app to Vercel?
+How do I store files in Vercel Blob?
+How do I connect to a Postgres database from Next.js?
+How do I build a REST API in FastAPI with authentication?
+How do I process a large CSV file efficiently in Python?
+How do I speed up NumPy code?
+How do I plot multiple EEG channels nicely with matplotlib?
+How do I create an interactive dashboard for sensor data?
+How do I use async/await in C#?
+How do I use coroutines in Unity?
+How do I write a singleton in Unity safely?
+How do I use ScriptableObjects for configuration in Unity?
+How do I use events and delegates in C#?
+How do I debug a NullReferenceException in Unity?

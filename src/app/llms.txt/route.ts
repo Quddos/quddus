@@ -28,6 +28,7 @@ export async function GET() {
     "## Tools and APIs",
     `- [QUDMI live demo](${abs("/demos/qudmi")}): full-body pose from head and hand tracking, in the browser`,
     `- [EEG Biomarker tool](${abs("/demos/eeg")}): in-browser EEG band power and artifact analysis`,
+    `- [RILstudio](${abs("/demos/rilstudio")}): imitation and reinforcement learning studio that trains agents in the browser`,
     `- [The Lab in VR](${abs("/vr")}): WebXR gallery of the projects for Meta Quest and desktop`,
     `- [Qud-1 API and developer docs](${abs("/developers")}): free OpenAI-compatible API for XR and neurotech builders`,
     "",

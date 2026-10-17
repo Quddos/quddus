@@ -1,11 +1,11 @@
-import { Activity, ArrowUpRight, BookOpen, Cpu, Eye, KeyRound, Waves } from "lucide-react";
+import { Activity, ArrowUpRight, BookOpen, Cpu, Eye, Gamepad2, KeyRound, Waves } from "lucide-react";
 import Link from "next/link";
 import type { HubTool } from "@/lib/types";
 import { Playground } from "../hub/Playground";
 import { Reveal } from "../Reveal";
 import { SectionHeader } from "./SectionHeader";
 
-const icons: Record<string, typeof Cpu> = { LLM: Cpu, "Motion model": Activity, "Signal pipeline": Waves, VLM: Eye };
+const icons: Record<string, typeof Cpu> = { LLM: Cpu, "Motion model": Activity, "Signal pipeline": Waves, VLM: Eye, "Learning studio": Gamepad2 };
 
 const statusStyle: Record<string, string> = {
   Live: "text-cyan border-cyan/40",

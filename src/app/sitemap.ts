@@ -9,6 +9,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     page("/", 1, "weekly"),
     page("/demos/qudmi", 0.9),
     page("/demos/eeg", 0.9),
+    page("/demos/rilstudio", 0.9),
     page("/developers", 0.8),
     page("/vr", 0.7),
     ...c.projects.map((p) => page(`/projects/${p.slug}`, 0.8)),

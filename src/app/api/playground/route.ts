@@ -2,7 +2,7 @@ import { clientIp, consume, hash, LIMITS } from "@/lib/api-keys";
 import { hasDatabase } from "@/lib/db";
 import { callQud, GatewayError, parseMessages, renameModelStream } from "@/lib/qud";
 
-export const maxDuration = 60;
+export const maxDuration = 120;
 
 // Keyless, IP-limited endpoint behind the on-site chat playground.
 export async function POST(req: Request) {

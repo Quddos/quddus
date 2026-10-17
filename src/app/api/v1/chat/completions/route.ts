@@ -3,7 +3,7 @@ import { hasDatabase, sql } from "@/lib/db";
 import { callQud, GatewayError, parseMessages, QUD_MODEL, renameModelStream } from "@/lib/qud";
 import { apiError, CORS } from "../../cors";
 
-export const maxDuration = 60;
+export const maxDuration = 120;
 
 export function OPTIONS() {
   return new Response(null, { status: 204, headers: CORS });
