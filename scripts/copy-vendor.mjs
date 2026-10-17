@@ -10,6 +10,9 @@ const files = [
   ["@mediapipe/tasks-vision/vision_bundle.mjs", "mediapipe/vision_bundle.mjs"],
   ["@mediapipe/tasks-vision/wasm/vision_wasm_internal.js", "mediapipe/wasm/vision_wasm_internal.js"],
   ["@mediapipe/tasks-vision/wasm/vision_wasm_internal.wasm", "mediapipe/wasm/vision_wasm_internal.wasm"],
+  // 3D text in the VR gallery (troika needs woff/ttf, not woff2).
+  ["@fontsource/space-grotesk/files/space-grotesk-latin-400-normal.woff", "fonts/space-grotesk-400.woff"],
+  ["@fontsource/space-grotesk/files/space-grotesk-latin-600-normal.woff", "fonts/space-grotesk-600.woff"],
 ];
 
 for (const [from, to] of files) {
