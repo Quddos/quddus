@@ -7,6 +7,7 @@ An immersive portfolio built with Next.js 16, React Three Fiber and a small admi
 - **⌘K command palette** for quick navigation.
 - **AI guide:** a floating "Ask about Raheem" assistant that answers from the live site content and offers buttons to the relevant project or section.
 - **Qud-1 API:** a chat playground, free self-serve API keys at `/developers`, and an OpenAI-compatible `/api/v1/chat/completions` with daily limits.
+- **QUDMI live demo** at `/demos/qudmi`: the QUDMI ONNX model runs in the browser (ONNX Runtime Web) and predicts a full body from head + hands, driven by preset motions or the webcam (MediaPipe). Runtimes are copied into `public/vendor` by `scripts/copy-vendor.mjs` before dev and build.
 - **Admin at `/admin`:** edit every section, upload images, videos and `.glb` models to Vercel Blob, read messages, and change credentials. Saving publishes immediately.
 
 ## Environment variables
@@ -19,6 +20,7 @@ An immersive portfolio built with Next.js 16, React Three Fiber and a small admi
 | `ADMIN_PASSWORD` | Initial admin password (8+ characters). Used once, on first login, to create the account. |
 | `ADMIN_USERNAME` | Optional. Initial admin username (default `admin`). |
 | `NEXT_PUBLIC_SITE_URL` | Optional. Canonical URL for metadata and API examples. |
+| `NEXT_PUBLIC_QUDMI_MODEL_URL` | Optional. QUDMI ONNX URL (defaults to the Hugging Face `quddusr/qudmi` weights). |
 | `GROQ_API_KEY` | Recommended. Free Groq key; Qud-1's first provider. |
 | `CEREBRAS_API_KEY` / `OPENROUTER_API_KEY` / `HF_TOKEN` | Optional free fallbacks, tried in that order after Groq. |
 | `GROQ_MODELS`, `CEREBRAS_MODELS`, `OPENROUTER_MODELS`, `HF_MODELS` | Optional. Comma-separated model IDs per provider. |

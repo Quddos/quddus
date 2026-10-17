@@ -67,7 +67,7 @@ async function ProjectDetail({ params }: { params: Promise<{ slug: string }> }) 
                 <a
                   key={l.url}
                   href={l.url}
-                  target="_blank"
+                  target={l.url.startsWith("/") ? undefined : "_blank"}
                   rel="noreferrer"
                   className={i === 0 ? "inline-flex items-center gap-2 rounded-full bg-fg px-5 py-3 text-sm font-medium text-bg transition hover:bg-cyan" : "glass inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm"}
                 >

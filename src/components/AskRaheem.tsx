@@ -84,7 +84,7 @@ export function AskRaheem({
   }, [messages]);
 
   const valid = (a: Action) =>
-    a.kind === "section" ? sections.includes(a.target) : a.target === "/developers" || slugs.some((s) => a.target === `/projects/${s}`);
+    a.kind === "section" ? sections.includes(a.target) : ["/developers", "/demos/qudmi"].includes(a.target) || slugs.some((s) => a.target === `/projects/${s}`);
 
   function go(a: Action) {
     if (window.innerWidth < 768) setOpen(false);

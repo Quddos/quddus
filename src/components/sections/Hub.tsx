@@ -42,7 +42,13 @@ export function Hub({ tools }: { tools: HubTool[] }) {
                   <div className="mono-label mt-5">{t.kind}</div>
                   <h3 className="mt-1 font-display text-xl font-semibold">{t.name}</h3>
                   <p className="mt-2 text-sm text-muted">{t.description}</p>
-                  <code className="mt-4 block font-mono text-xs text-dim">POST {t.endpoint}</code>
+                  {t.endpoint.startsWith("/demos") ? (
+                    <Link href={t.endpoint} className="mt-4 inline-flex items-center gap-1 text-sm text-cyan">
+                      Open live demo <ArrowUpRight className="h-3.5 w-3.5" />
+                    </Link>
+                  ) : (
+                    <code className="mt-4 block font-mono text-xs text-dim">POST {t.endpoint}</code>
+                  )}
                 </div>
               </Reveal>
             );

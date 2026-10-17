@@ -193,6 +193,7 @@ export const seed: SiteContent = {
       ],
       tech: ["Imitation Learning", "PyTorch", "Unity", "C#", "ONNX"],
       links: [
+        { label: "Try the live demo", url: "/demos/qudmi" },
         { label: "GitHub", url: "https://github.com/Quddos/qudmi" },
         { label: "Hugging Face", url: "https://huggingface.co/quddusr/qudmi" },
       ],
@@ -667,9 +668,9 @@ export const seed: SiteContent = {
       id: "qudmi-api",
       name: "QUDMI Motion",
       kind: "Motion model",
-      description: "Send 3–6 tracker poses, get a full-body skeleton back. Runs in the browser or through the API.",
-      endpoint: "/api/v1/qudmi/pose",
-      status: "Coming soon",
+      description: "Head + two hands in, a full 22-joint body out. Runs live in your browser with preset motions or your webcam.",
+      endpoint: "/demos/qudmi",
+      status: "Live",
     },
     {
       id: "eeg-api",
