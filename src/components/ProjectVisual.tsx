@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { canOptimize } from "@/lib/images";
 import type { Project } from "@/lib/types";
 
 function hash(s: string) {
@@ -26,6 +27,7 @@ export function ProjectVisual({ project, priority = false }: { project: Project;
     return (
       <Image
         src={project.cover}
+        unoptimized={!canOptimize(project.cover)}
         alt={project.title}
         fill
         priority={priority}

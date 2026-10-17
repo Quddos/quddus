@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { canOptimize } from "@/lib/images";
 import type { Profile, SkillGroup } from "@/lib/types";
 import { Reveal } from "../Reveal";
 import { SectionHeader } from "./SectionHeader";
@@ -14,6 +15,7 @@ export function About({ profile, skills }: { profile: Profile; skills: SkillGrou
             {profile.photo && (
               <Image
                 src={profile.photo}
+                unoptimized={!canOptimize(profile.photo)}
                 alt={profile.name}
                 fill
                 sizes="(min-width: 1024px) 40vw, 100vw"

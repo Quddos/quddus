@@ -12,6 +12,7 @@ export const metadata: Metadata = {
 
 const endpoints = [
   ["POST", "/api/v1/chat/completions", "Chat with qud-1. OpenAI-compatible: messages, stream, max_tokens, temperature."],
+  ["POST", "/api/v1/eeg/analyze", "EEG Biomarker pipeline. Multipart `file` (EDF/CSV, optional `fs`) or JSON { fs, channels: [{ name, data }] }. Returns band powers, peak alpha, artifacts and spectra."],
   ["GET", "/api/v1/models", "Lists available models."],
 ];
 

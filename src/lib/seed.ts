@@ -676,9 +676,9 @@ export const seed: SiteContent = {
       id: "eeg-api",
       name: "EEG Biomarker",
       kind: "Signal pipeline",
-      description: "Upload EEG (EDF/CSV/Emotiv) and get band powers, artifact reports and cognitive-load estimates.",
-      endpoint: "/api/v1/eeg/analyze",
-      status: "Coming soon",
+      description: "Drop in an EEG file (EDF or Emotiv CSV) for band powers, alpha peak, artifact report, spectra and scalp maps. Free API too.",
+      endpoint: "/demos/eeg",
+      status: "Live",
     },
     {
       id: "vision",
