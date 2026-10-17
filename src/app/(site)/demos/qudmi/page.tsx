@@ -1,10 +1,13 @@
 import { ArrowUpRight } from "lucide-react";
 import type { Metadata } from "next";
+import { breadcrumbs, graph, PERSON_ID } from "@/lib/jsonld";
+import { abs } from "@/lib/site";
 import { CopyButton } from "@/components/sections/CopyButton";
 import { QudmiDemo } from "@/components/qudmi/QudmiDemo";
 import { Reveal } from "@/components/Reveal";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/demos/qudmi" },
   title: "QUDMI live demo",
   description: "Full-body pose from just a VR headset and two hand controllers, running live in your browser. Try it with preset motions or your webcam.",
 };
@@ -26,6 +29,7 @@ const steps = [
 export default function QudmiDemoPage() {
   return (
     <div className="mx-auto max-w-7xl px-5 pb-24 pt-32 md:px-10 md:pt-40">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: graph({ "@type": "SoftwareApplication", name: "QUDMI live demo", description: "Full-body pose estimation from head and hand tracking, running in the browser.", url: abs("/demos/qudmi"), applicationCategory: "MultimediaApplication", operatingSystem: "Web browser", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, author: { "@id": PERSON_ID } }, breadcrumbs([["Home", "/"], ["QUDMI live demo", "/demos/qudmi"]])) }} />
       <Reveal>
         <div className="mono-label mb-5 flex items-center gap-3">
           <span className="text-cyan">Live demo</span>

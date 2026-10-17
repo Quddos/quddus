@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import { ProjectVisual } from "@/components/ProjectVisual";
 import { Reveal } from "@/components/Reveal";
 import { getContent } from "@/lib/content";
+import { breadcrumbs, graph, projectLd } from "@/lib/jsonld";
 import { seed } from "@/lib/seed";
 
 export async function generateStaticParams() {
@@ -17,7 +18,12 @@ export async function generateMetadata({ params }: PageProps<"/projects/[slug]">
   const { slug } = await params;
   const p = (await getContent()).projects.find((x) => x.slug === slug);
   if (!p) return { title: "Project" };
-  return { title: p.title, description: p.tagline, openGraph: { images: p.cover ? [p.cover] : undefined } };
+  return {
+    title: p.title,
+    description: `${p.tagline}. ${p.description}`.slice(0, 300),
+    alternates: { canonical: `/projects/${p.slug}` },
+    openGraph: { type: "article", title: `${p.title} · Raheem Qudus`, description: p.tagline, ...(p.cover && { images: [p.cover] }) },
+  };
 }
 
 function embedUrl(url: string) {
@@ -49,6 +55,10 @@ async function ProjectDetail({ params }: { params: Promise<{ slug: string }> }) 
 
   return (
     <article style={{ "--accent": p.accent } as React.CSSProperties}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: graph(projectLd(p), breadcrumbs([["Home", "/"], ["Projects", "/#lab"], [p.title, `/projects/${p.slug}`]])) }}
+      />
       <header className="relative mx-auto max-w-7xl px-5 pb-12 pt-32 md:px-10 md:pt-40">
         <Link href="/#lab" className="mono-label inline-flex items-center gap-2 hover:text-fg">
           <ArrowLeft className="h-3.5 w-3.5" /> The Lab

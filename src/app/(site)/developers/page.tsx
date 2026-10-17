@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { breadcrumbs, graph, PERSON_ID } from "@/lib/jsonld";
+import { abs } from "@/lib/site";
 import { CodeTabs } from "@/components/hub/CodeTabs";
 import { KeyForm } from "@/components/hub/KeyForm";
 import { Playground } from "@/components/hub/Playground";
@@ -6,6 +8,7 @@ import { Reveal } from "@/components/Reveal";
 import { LIMITS } from "@/lib/api-keys";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/developers" },
   title: "Developers · Qud-1 API",
   description: "Free, OpenAI-compatible API for Qud-1, an assistant for XR and neurotech builders. Generate a key and start building.",
 };
@@ -27,6 +30,7 @@ const errors = [
 export default function DevelopersPage() {
   return (
     <div className="mx-auto max-w-7xl px-5 pb-24 pt-32 md:px-10 md:pt-40">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: graph({ "@type": "SoftwareApplication", name: "Qud-1 API", description: "Free OpenAI-compatible API for XR and neurotech builders.", url: abs("/developers"), applicationCategory: "DeveloperApplication", operatingSystem: "Web browser", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, author: { "@id": PERSON_ID } }, breadcrumbs([["Home", "/"], ["Qud-1 API", "/developers"]])) }} />
       <Reveal>
         <div className="mono-label mb-5 flex items-center gap-3">
           <span className="text-cyan">API</span>

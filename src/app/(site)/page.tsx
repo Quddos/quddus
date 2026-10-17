@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Hero } from "@/components/hero/Hero";
 import { About } from "@/components/sections/About";
 import { Contact } from "@/components/sections/Contact";
@@ -7,22 +8,16 @@ import { Lab } from "@/components/sections/Lab";
 import { NetworkSection } from "@/components/sections/NetworkSection";
 import { Research } from "@/components/sections/Research";
 import { getContent } from "@/lib/content";
+import { graph, personLd, websiteLd } from "@/lib/jsonld";
+
+export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 export default async function Home() {
   const c = await getContent();
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name: c.profile.name,
-    jobTitle: c.profile.headline,
-    email: `mailto:${c.profile.email}`,
-    sameAs: c.profile.socials.filter((s) => s.url.startsWith("http")).map((s) => s.url),
-    affiliation: { "@type": "Organization", name: "SRM University-AP" },
-    knowsAbout: c.skills.flatMap((s) => s.items),
-  };
+  const jsonLd = graph(personLd(c), websiteLd(c));
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd }} />
       <Hero profile={c.profile} peopleCount={c.people.length} projectCount={c.projects.length} />
       <About profile={c.profile} skills={c.skills} />
       <Lab projects={c.projects} />

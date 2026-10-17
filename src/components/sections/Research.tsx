@@ -1,4 +1,5 @@
 import { ArrowUpRight } from "lucide-react";
+import Link from "next/link";
 import type { Publication } from "@/lib/types";
 import { Reveal } from "../Reveal";
 import { CopyButton } from "./CopyButton";
@@ -25,7 +26,7 @@ function Row({ p, i }: { p: Publication; i: number }) {
         </div>
         <div>
           <h3 className="font-display text-xl font-medium leading-snug tracking-tight transition group-hover:text-cyan md:text-2xl">
-            {p.title}
+            <Link href={`/research/${p.id}`}>{p.title}</Link>
           </h3>
           <p className="mt-2 text-sm text-muted">{p.authors}</p>
           <p className="mt-1 text-sm text-dim">{p.venue}</p>
@@ -77,13 +78,13 @@ export function Research({ publications }: { publications: Publication[] }) {
           <div className="grid gap-4 md:grid-cols-3">
             {patents.map((p, i) => (
               <Reveal key={p.id} delay={i * 0.06}>
-                <div className="h-full rounded-2xl border border-line bg-bg-2 p-6">
+                <Link href={`/research/${p.id}`} className="block h-full rounded-2xl border border-line bg-bg-2 p-6 transition hover:border-line-strong">
                   <div className="font-mono text-xs text-amber">{p.kind.replace("Patent · ", "No. ")}</div>
                   <h3 className="mt-3 font-display text-lg font-medium leading-snug">{p.title}</h3>
                   <p className="mt-3 text-sm text-dim">
                     {p.venue} · {p.year}
                   </p>
-                </div>
+                </Link>
               </Reveal>
             ))}
           </div>

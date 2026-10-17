@@ -9,6 +9,7 @@ An immersive portfolio built with Next.js 16, React Three Fiber and a small admi
 - **Qud-1 API:** a chat playground, free self-serve API keys at `/developers`, and an OpenAI-compatible `/api/v1/chat/completions` with daily limits.
 - **QUDMI live demo** at `/demos/qudmi`: the QUDMI ONNX model runs in the browser (ONNX Runtime Web) and predicts a full body from head + hands, driven by preset motions or the webcam (MediaPipe). Runtimes are copied into `public/vendor` by `scripts/copy-vendor.mjs` before dev and build.
 - **EEG Biomarker tool** at `/demos/eeg` (and `POST /api/v1/eeg/analyze`): EDF/EDF+ and Emotiv/generic CSV parsing, zero-phase 1–45 Hz filtering with a 50/60 Hz notch, artifact screening, Welch band powers, peak alpha, theta/beta, engagement and frontal asymmetry, with spectra, spectrogram, scalp map and trace viewer. Runs in the browser; the DSP is checked against SciPy.
+- **SEO and visibility:** sitemap, robots, per-page canonical URLs and share images (`opengraph-image`), schema.org JSON-LD (Person, WebSite, VideoGame/CreativeWork, ScholarlyArticle, SoftwareApplication, breadcrumbs), a page per publication at `/research/<id>` with Google Scholar `citation_*` tags, `/llms.txt` for AI assistants, and Vercel Analytics.
 - **Admin at `/admin`:** edit every section, upload images, videos and `.glb` models to Vercel Blob, read messages, and change credentials. Saving publishes immediately.
 
 ## Environment variables
@@ -21,6 +22,7 @@ An immersive portfolio built with Next.js 16, React Three Fiber and a small admi
 | `ADMIN_PASSWORD` | Initial admin password (8+ characters). Used once, on first login, to create the account. |
 | `ADMIN_USERNAME` | Optional. Initial admin username (default `admin`). |
 | `NEXT_PUBLIC_SITE_URL` | Optional. Canonical URL for metadata and API examples. |
+| `GOOGLE_SITE_VERIFICATION` / `BING_SITE_VERIFICATION` | Optional. Verification codes from Google Search Console and Bing Webmaster Tools. |
 | `NEXT_PUBLIC_QUDMI_MODEL_URL` | Optional. QUDMI ONNX URL (defaults to the Hugging Face `quddusr/qudmi` weights). |
 | `GROQ_API_KEY` | Recommended. Free Groq key; Qud-1's first provider. |
 | `CEREBRAS_API_KEY` / `OPENROUTER_API_KEY` / `HF_TOKEN` | Optional free fallbacks, tried in that order after Groq. |

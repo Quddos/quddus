@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
+import { breadcrumbs, graph, PERSON_ID } from "@/lib/jsonld";
+import { abs } from "@/lib/site";
 import { EegTool } from "@/components/eeg/EegTool";
 import { Reveal } from "@/components/Reveal";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/demos/eeg" },
   title: "EEG Biomarker tool",
   description: "Free in-browser EEG analysis: band powers, peak alpha, artifact detection, spectra, spectrograms and scalp maps from EDF or Emotiv CSV files.",
 };
@@ -17,6 +20,7 @@ const steps = [
 export default function EegPage() {
   return (
     <div className="mx-auto max-w-7xl px-5 pb-24 pt-32 md:px-10 md:pt-40">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: graph({ "@type": "SoftwareApplication", name: "EEG Biomarker tool", description: "In-browser EEG analysis: band powers, peak alpha, artifact detection, spectra and scalp maps.", url: abs("/demos/eeg"), applicationCategory: "HealthApplication", operatingSystem: "Web browser", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, author: { "@id": PERSON_ID } }, breadcrumbs([["Home", "/"], ["EEG Biomarker tool", "/demos/eeg"]])) }} />
       <Reveal>
         <div className="mono-label mb-5 flex items-center gap-3">
           <span className="text-cyan">Live tool</span>
