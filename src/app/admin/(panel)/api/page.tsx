@@ -18,11 +18,12 @@ async function Keys() {
           ORDER BY k.created_at DESC LIMIT 500`,
     sql()`SELECT
             coalesce(sum(requests) FILTER (WHERE caller LIKE 'key:%'), 0)::int AS api,
-            coalesce(sum(requests) FILTER (WHERE caller LIKE 'ip:%'), 0)::int AS playground
+            coalesce(sum(requests) FILTER (WHERE caller LIKE 'ip:%'), 0)::int AS playground,
+            coalesce(sum(requests) FILTER (WHERE caller LIKE 'ask:%'), 0)::int AS ask
           FROM api_usage WHERE day = current_date`,
     sql()`SELECT day::text, sum(requests)::int AS n FROM api_usage WHERE day > current_date - 7 GROUP BY day ORDER BY day`,
-  ])) as [KeyRow[], { api: number; playground: number }[], { day: string; n: number }[]];
-  const t = today[0] ?? { api: 0, playground: 0 };
+  ])) as [KeyRow[], { api: number; playground: number; ask: number }[], { day: string; n: number }[]];
+  const t = today[0] ?? { api: 0, playground: 0, ask: 0 };
   const max = Math.max(1, ...week.map((w) => w.n));
 
   return (
@@ -31,8 +32,8 @@ async function Keys() {
         {[
           ["Active keys", keys.filter((k) => !k.revoked).length],
           ["API requests today", t.api],
-          ["Playground requests today", t.playground],
-          ["Daily site cap", `${t.api + t.playground} / ${LIMITS.globalDaily}`],
+          ["Playground + AI guide today", `${t.playground} + ${t.ask}`],
+          ["Daily site cap", `${t.api + t.playground + t.ask} / ${LIMITS.globalDaily}`],
         ].map(([label, value]) => (
           <div key={label as string} className="rounded-2xl border border-line bg-bg-2 p-5">
             <div className="mono-label">{label}</div>

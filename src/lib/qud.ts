@@ -103,11 +103,11 @@ async function attempt(provider: Provider, model: string, body: Record<string, u
 // Returns the raw upstream response (SSE when streaming).
 export async function callQud(
   messages: ChatMessage[],
-  opts: { stream: boolean; maxTokens: number; temperature?: number },
+  opts: { stream: boolean; maxTokens: number; temperature?: number; system?: string },
   log?: Attempt[],
 ): Promise<Response> {
   const userSystem = messages.filter((m) => m.role === "system").map((m) => m.content);
-  const system = [QUD_SYSTEM_PROMPT, ...userSystem].join("\n\n");
+  const system = [opts.system ?? QUD_SYSTEM_PROMPT, ...userSystem].join("\n\n");
   const body = {
     messages: [{ role: "system", content: system }, ...messages.filter((m) => m.role !== "system")],
     stream: opts.stream,

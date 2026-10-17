@@ -14,7 +14,7 @@ const SUGGESTIONS = [
 ];
 
 // Reads OpenAI-style SSE and yields text deltas.
-async function* readDeltas(res: Response) {
+export async function* readDeltas(res: Response) {
   const reader = res.body!.getReader();
   const decoder = new TextDecoder();
   let buffer = "";

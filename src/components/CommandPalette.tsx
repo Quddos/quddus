@@ -3,6 +3,7 @@
 import { Command } from "cmdk";
 import { ArrowRight, AtSign, Copy, ExternalLink, FileText, FlaskConical, Network, Sparkles } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { OPEN_ASK_EVENT } from "./AskRaheem";
 import { useEffect, useState } from "react";
 import type { Link as SiteLink, Project, Publication } from "@/lib/types";
 
@@ -107,6 +108,9 @@ export function CommandPalette({
               ))}
             </Command.Group>
             <Command.Group heading="Actions" className={group}>
+              <Command.Item className={item} value="ask ai assistant question" onSelect={() => run(() => window.dispatchEvent(new Event(OPEN_ASK_EVENT)))}>
+                <Sparkles className="h-4 w-4 text-cyan" /> Ask the AI guide about Raheem
+              </Command.Item>
               <Command.Item
                 className={item}
                 onSelect={() =>

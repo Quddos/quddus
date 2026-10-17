@@ -5,6 +5,7 @@ import { ensureSchema, sql } from "./db";
 export const LIMITS = {
   keyDaily: Number(process.env.QUD_KEY_DAILY_LIMIT || 200),
   playgroundDaily: Number(process.env.QUD_PLAYGROUND_DAILY_LIMIT || 30),
+  askDaily: Number(process.env.QUD_ASK_DAILY_LIMIT || 40),
   globalDaily: Number(process.env.QUD_GLOBAL_DAILY_LIMIT || 3000),
   keysPerEmail: 3,
   keysPerIpPerDay: 5,

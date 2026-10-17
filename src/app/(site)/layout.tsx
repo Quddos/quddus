@@ -1,8 +1,10 @@
+import { AskRaheem } from "@/components/AskRaheem";
 import { CommandPalette } from "@/components/CommandPalette";
 import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { getContent } from "@/lib/content";
+import { SECTIONS } from "@/lib/raheem";
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
   const c = await getContent();
@@ -17,6 +19,12 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         email={c.profile.email}
       />
       <main>{children}</main>
+      <AskRaheem
+        firstName={c.profile.name.split(" ")[0]}
+        photo={c.profile.photo}
+        slugs={c.projects.map((p) => p.slug)}
+        sections={Object.keys(SECTIONS)}
+      />
       <Footer profile={c.profile} />
     </div>
   );
