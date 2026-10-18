@@ -21,11 +21,13 @@ distill.py ───────┘            └► quddusr/qud-1-GGUF ─► 
 
 ## Run it (free)
 
-1. Open `Qud_1_training.ipynb` in [Colab](https://colab.research.google.com) (*File → Open notebook → GitHub*, then paste the repo URL) or upload it to Kaggle. Pick a **T4 GPU**.
-2. Add secrets:
-   - `HF_TOKEN`: a Hugging Face **write** token.
-   - `GROQ_API_KEY`: optional, but recommended for the distilled data.
-3. Click **Run all**. It takes about 30–60 minutes and creates `quddusr/qud-1` and `quddusr/qud-1-GGUF`.
+`Qud_1_training.ipynb` is self-contained: the training data is written by its own cells, so you can upload that single file.
+
+1. Go to [colab.research.google.com](https://colab.research.google.com), choose *File → Upload notebook*, and pick `Qud_1_training.ipynb`. Set *Runtime → Change runtime type → T4 GPU*.
+2. In the 🔑 Secrets panel, add `HF_TOKEN` (a Hugging Face **write** token). `GROQ_API_KEY` is optional but recommended for the distilled data.
+3. Choose *Runtime → Run all*. It takes about 30–60 minutes and creates `quddusr/qud-1` and `quddusr/qud-1-GGUF`.
+
+The notebook explains each stage as it runs: tokens and the chat template, the base model's answers before training, LoRA, which tokens are trained on, the loss curve, answers before and after, merging, and quantisation. `distill.py` and `train.py` do the same work from the command line on your own GPU machine.
 
 ## Serve it (free)
 
