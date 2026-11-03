@@ -3,7 +3,11 @@
 <script src="vendor/aframe.min.js"></script>
 <script>
 AFRAME.registerComponent('fps-meter', {
+  schema: {type: 'string'},
   init: function () { this.t = performance.now(); this.n = 0; this.hist = [];
+    var ua = navigator.userAgent;
+    this.ua = [(ua.match(/Quest[^;)]*/) || [''])[0], (ua.match(/OculusBrowser\/[\d.]+/) || [''])[0]]
+              .filter(Boolean).join(' ') || ua.split(' ').slice(-1)[0];
     this.loadMs = Math.round(performance.now()); },
   tick: function () {
     this.n++; var now = performance.now();
@@ -11,8 +15,8 @@ AFRAME.registerComponent('fps-meter', {
       var fps = this.n * 1000 / (now - this.t); this.hist.push(fps); if (this.hist.length > 10) this.hist.shift();
       var avg = this.hist.reduce(function (a, b) { return a + b; }, 0) / this.hist.length;
       var mode = this.el.sceneEl.is('vr-mode') ? 'VR' : 'desktop';
-      this.el.setAttribute('value', mode + ' | FPS ' + fps.toFixed(0) + ' | 10 s avg ' + avg.toFixed(0) +
-                           ' | loaded in ' + this.loadMs + ' ms');
+      this.el.setAttribute('value', this.data + ' | ' + mode + ' | FPS ' + fps.toFixed(0) + ' | 10 s avg ' +
+                           avg.toFixed(0) + ' | loaded in ' + this.loadMs + ' ms | ' + this.ua);
       this.n = 0; this.t = now; }
   }
 });
@@ -49,6 +53,6 @@ AFRAME.registerComponent('fps-meter', {
       <a-box position="0.700 0.200 -0.150" width="0.050" height="0.400" depth="0.050" color="#5a4632" shadow="cast:true;receive:true" ></a-box>
       <a-box position="0.700 0.200 0.150" width="0.050" height="0.400" depth="0.050" color="#5a4632" shadow="cast:true;receive:true" ></a-box>
     </a-entity>
-    <a-entity id="rig" position="5.00 0 6.40"><a-entity camera look-controls wasd-controls="acceleration:20" position="0 1.6 0"><a-text fps-meter value="measuring..." position="0 -0.28 -0.9" width="0.9" align="center" color="#111"></a-text></a-entity></a-entity>
+    <a-entity id="rig" position="5.00 0 6.40"><a-entity camera look-controls wasd-controls="acceleration:20" position="0 1.6 0"><a-entity position="0 -0.3 -0.9"><a-plane width="1.0" height="0.12" color="#111" opacity="0.85"></a-plane><a-text fps-meter="T2-03" value="T2-03 | measuring..." position="0 0 0.001" width="0.95" wrap-count="75" align="center" color="#fff"></a-text></a-entity></a-entity></a-entity>
   </a-scene>
 </body></html>
