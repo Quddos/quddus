@@ -248,6 +248,30 @@ export const seed: SiteContent = {
       accent: "#4fd1ff",
     },
     {
+      id: "sceneagent-xr",
+      slug: "sceneagent-xr",
+      title: "SceneAgent-XR",
+      tagline: "An AI agent that builds VR rooms from a sentence, then checks its own work",
+      category: "Agentic AI · WebXR",
+      year: "2026",
+      status: "Research",
+      cover: "/media/sceneagent-xr.jpg",
+      video: "",
+      model3d: "",
+      description:
+        "Describe a room in plain language and an open-weight language model lays it out as a 3D scene graph. A deterministic spatial verifier, used by the model as a tool, checks every object for collisions, room bounds, gravity and support, counts and spatial relations, and reports each problem with exact numbers. The model repairs the scene from that feedback, and the result is compiled into a standalone WebXR page that opens in any browser or VR headset. The project includes SceneBench-XR, a benchmark of 60 certified text-to-scene tasks, and a study of four open-weight models from 7B to 120B parameters.",
+      highlights: [
+        "Verifier-grounded repair beats one-shot generation by 34 points of task success",
+        "Dense scenes go from 20% to 90% success with gpt-oss-120b",
+        "Self-critique without the verifier brings no reliable gain",
+        "Runs on a laptop with free open-weight models; no GPU or 3D assets",
+      ],
+      tech: ["LLM Agents", "Tool Use", "WebXR", "A-Frame", "Python", "Open-weight LLMs"],
+      links: [{ label: "Walk through generated scenes", url: "/sceneagent-xr/index.html" }],
+      featured: true,
+      accent: "#2fbf8f",
+    },
+    {
       id: "mindecliptvr",
       slug: "mindecliptvr",
       title: "Mindecliptvr",
@@ -389,6 +413,20 @@ export const seed: SiteContent = {
       summary:
         "Makes reinforcement and imitation learning accessible without Python: learners teach behaviour by playing a task, then train by behaviour cloning or Double DQN entirely in the browser. Greedy-evaluation checkpointing raises Cart Pole DQN return from 165 to 473 and cuts across-seed spread from 170 to 47.",
       tags: ["Imitation Learning", "Reinforcement Learning", "HCI", "Education"],
+    },
+    {
+      id: "sceneagent-xr-pub",
+      title: "Verify-and-Repair Agents for Physically Valid WebXR Scene Generation with Open-Weight Language Models",
+      venue: "Inteligencia Artificial (IBERAMIA) (target)",
+      year: "2026",
+      status: "Submitted",
+      kind: "Journal article",
+      authors: "Raheem Qudus",
+      doi: "",
+      url: "/projects/sceneagent-xr",
+      summary:
+        "Grounds LLM self-correction in an exact spatial verifier for text-to-WebXR scene generation. On the certified SceneBench-XR benchmark, verifier-guided repair raises task success by 34 percentage points over one-shot generation across three open-weight models, while intrinsic self-refinement gives no reliable gain.",
+      tags: ["Agentic AI", "LLMs", "WebXR", "Spatial Reasoning"],
     },
     {
       id: "blockchain-xr-pub",

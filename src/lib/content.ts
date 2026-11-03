@@ -8,7 +8,14 @@ export const CONTENT_TAG = "content";
 
 // Seed items added after the admin went live. Sections already saved in the
 // database get them too, unless the admin has since removed them.
-const ADDED_SEED_IDS = new Set(["rilstudio", "rilstudio-immersive", "rilstudio-pub", "rilstudio-hub"]);
+const ADDED_SEED_IDS = new Set([
+  "rilstudio",
+  "rilstudio-immersive",
+  "rilstudio-pub",
+  "rilstudio-hub",
+  "sceneagent-xr",
+  "sceneagent-xr-pub",
+]);
 const removedKey = (key: string) => `removed:${key}`;
 
 // Reads every section, preferring what was saved in /admin over the seed.

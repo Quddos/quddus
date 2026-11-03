@@ -1,0 +1,86 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>T3-04</title>
+<script src="vendor/aframe.min.js"></script>
+</head>
+<body>
+  <a-scene renderer="antialias:true;colorManagement:true" shadow="type:pcfsoft" background="color:#dfe7ef"
+           vr-mode-ui="enabled:true" loading-screen="enabled:false" stats="false">
+    <a-entity light="type:ambient;intensity:0.65"></a-entity>
+    <a-entity light="type:directional;intensity:0.75;castShadow:true;shadowCameraLeft:-12;shadowCameraRight:12;shadowCameraTop:12;shadowCameraBottom:-12"
+              position="1.65 9.00 5.40"></a-entity>
+    <a-plane position="2.75 0 2.25" rotation="-90 0 0" width="5.5" height="4.5" color="#e9e4da" shadow="receive:true"></a-plane>
+    <a-plane position="2.75 1.5 0" width="5.5" height="3.0" color="#f4f1ea" shadow="receive:true"></a-plane>
+    <a-plane position="0 1.5 2.25" rotation="0 90 0" width="4.5" height="3.0" color="#efe9df" shadow="receive:true"></a-plane>
+    <a-plane position="5.5 1.5 2.25" rotation="0 -90 0" width="4.5" height="3.0" color="#efe9df" shadow="receive:true"></a-plane>
+    <a-box position="1 0.002 2.25" width="0.01" height="0.002" depth="4.5" color="#cfc8b8"></a-box><a-box position="2 0.002 2.25" width="0.01" height="0.002" depth="4.5" color="#cfc8b8"></a-box><a-box position="3 0.002 2.25" width="0.01" height="0.002" depth="4.5" color="#cfc8b8"></a-box><a-box position="4 0.002 2.25" width="0.01" height="0.002" depth="4.5" color="#cfc8b8"></a-box><a-box position="5 0.002 2.25" width="0.01" height="0.002" depth="4.5" color="#cfc8b8"></a-box><a-box position="2.75 0.002 1" width="5.5" height="0.002" depth="0.01" color="#cfc8b8"></a-box><a-box position="2.75 0.002 2" width="5.5" height="0.002" depth="0.01" color="#cfc8b8"></a-box><a-box position="2.75 0.002 3" width="5.5" height="0.002" depth="0.01" color="#cfc8b8"></a-box><a-box position="2.75 0.002 4" width="5.5" height="0.002" depth="0.01" color="#cfc8b8"></a-box>
+        <a-entity id="dining_table_1" position="3.500 0.000 2.500" rotation="0 -0 0">
+      <a-box position="0.000 0.725 0.000" width="1.600" height="0.050" depth="0.900" color="#9c6b3f" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="-0.750 0.350 -0.400" width="0.050" height="0.700" depth="0.050" color="#5a4632" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="-0.750 0.350 0.400" width="0.050" height="0.700" depth="0.050" color="#5a4632" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="0.750 0.350 -0.400" width="0.050" height="0.700" depth="0.050" color="#5a4632" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="0.750 0.350 0.400" width="0.050" height="0.700" depth="0.050" color="#5a4632" shadow="cast:true;receive:true" ></a-box>
+    </a-entity>
+    <a-entity id="chair_1" position="3.500 0.000 1.500" rotation="0 -0 0">
+      <a-box position="0.000 0.450 0.000" width="0.450" height="0.060" depth="0.450" color="#556b8d" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="0.000 0.675 -0.195" width="0.450" height="0.450" depth="0.060" color="#556b8d" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="-0.195 0.225 -0.195" width="0.040" height="0.450" depth="0.040" color="#222" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="-0.195 0.225 0.195" width="0.040" height="0.450" depth="0.040" color="#222" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="0.195 0.225 -0.195" width="0.040" height="0.450" depth="0.040" color="#222" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="0.195 0.225 0.195" width="0.040" height="0.450" depth="0.040" color="#222" shadow="cast:true;receive:true" ></a-box>
+    </a-entity>
+    <a-entity id="chair_2" position="4.000 0.000 1.500" rotation="0 -0 0">
+      <a-box position="0.000 0.450 0.000" width="0.450" height="0.060" depth="0.450" color="#556b8d" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="0.000 0.675 -0.195" width="0.450" height="0.450" depth="0.060" color="#556b8d" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="-0.195 0.225 -0.195" width="0.040" height="0.450" depth="0.040" color="#222" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="-0.195 0.225 0.195" width="0.040" height="0.450" depth="0.040" color="#222" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="0.195 0.225 -0.195" width="0.040" height="0.450" depth="0.040" color="#222" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="0.195 0.225 0.195" width="0.040" height="0.450" depth="0.040" color="#222" shadow="cast:true;receive:true" ></a-box>
+    </a-entity>
+    <a-entity id="chair_3" position="2.000 0.000 2.000" rotation="0 -90 0">
+      <a-box position="0.000 0.450 0.000" width="0.450" height="0.060" depth="0.450" color="#556b8d" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="0.000 0.675 -0.195" width="0.450" height="0.450" depth="0.060" color="#556b8d" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="-0.195 0.225 -0.195" width="0.040" height="0.450" depth="0.040" color="#222" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="-0.195 0.225 0.195" width="0.040" height="0.450" depth="0.040" color="#222" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="0.195 0.225 -0.195" width="0.040" height="0.450" depth="0.040" color="#222" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="0.195 0.225 0.195" width="0.040" height="0.450" depth="0.040" color="#222" shadow="cast:true;receive:true" ></a-box>
+    </a-entity>
+    <a-entity id="chair_4" position="5.000 0.000 2.500" rotation="0 -90 0">
+      <a-box position="0.000 0.450 0.000" width="0.450" height="0.060" depth="0.450" color="#556b8d" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="0.000 0.675 -0.195" width="0.450" height="0.450" depth="0.060" color="#556b8d" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="-0.195 0.225 -0.195" width="0.040" height="0.450" depth="0.040" color="#222" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="-0.195 0.225 0.195" width="0.040" height="0.450" depth="0.040" color="#222" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="0.195 0.225 -0.195" width="0.040" height="0.450" depth="0.040" color="#222" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="0.195 0.225 0.195" width="0.040" height="0.450" depth="0.040" color="#222" shadow="cast:true;receive:true" ></a-box>
+    </a-entity>
+    <a-entity id="chair_5" position="2.000 0.000 1.500" rotation="0 -0 0">
+      <a-box position="0.000 0.450 0.000" width="0.450" height="0.060" depth="0.450" color="#556b8d" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="0.000 0.675 -0.195" width="0.450" height="0.450" depth="0.060" color="#556b8d" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="-0.195 0.225 -0.195" width="0.040" height="0.450" depth="0.040" color="#222" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="-0.195 0.225 0.195" width="0.040" height="0.450" depth="0.040" color="#222" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="0.195 0.225 -0.195" width="0.040" height="0.450" depth="0.040" color="#222" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="0.195 0.225 0.195" width="0.040" height="0.450" depth="0.040" color="#222" shadow="cast:true;receive:true" ></a-box>
+    </a-entity>
+    <a-entity id="chair_6" position="5.000 0.000 3.500" rotation="0 -0 0">
+      <a-box position="0.000 0.450 0.000" width="0.450" height="0.060" depth="0.450" color="#556b8d" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="0.000 0.675 -0.195" width="0.450" height="0.450" depth="0.060" color="#556b8d" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="-0.195 0.225 -0.195" width="0.040" height="0.450" depth="0.040" color="#222" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="-0.195 0.225 0.195" width="0.040" height="0.450" depth="0.040" color="#222" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="0.195 0.225 -0.195" width="0.040" height="0.450" depth="0.040" color="#222" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="0.195 0.225 0.195" width="0.040" height="0.450" depth="0.040" color="#222" shadow="cast:true;receive:true" ></a-box>
+    </a-entity>
+    <a-entity id="plant_1" position="0.500 0.000 2.500" rotation="0 -0 0">
+      <a-cylinder position="0 0.160 0" radius="0.140" height="0.320" color="#8b5a2b"></a-cylinder>
+      <a-sphere position="0 0.520 0" radius="0.200" color="#3f8f3f"></a-sphere>
+    </a-entity>
+    <a-entity id="vase_1" position="3.500 0.750 2.500" rotation="0 -0 0">
+      <a-cylinder position="0 0.150 0" radius="0.100" height="0.300" color="#5b8bd9" shadow="cast:true"></a-cylinder>
+    </a-entity>
+    <a-entity id="kitchen_counter_1" position="3.500 0.000 3.500" rotation="0 -0 0">
+      <a-box position="0.000 0.450 0.000" width="2.000" height="0.900" depth="0.600" color="#d9d4c7" shadow="cast:true;receive:true" ></a-box>
+    </a-entity>
+    <a-entity id="fridge_1" position="2.000 0.000 4.000" rotation="0 -0 0">
+      <a-box position="0.000 0.900 0.000" width="0.700" height="1.800" depth="0.700" color="#f0f0f0" shadow="cast:true;receive:true" ></a-box>
+    </a-entity>
+    <a-entity camera="active:true;fov:60" look-controls wasd-controls="acceleration:20" position="2.75 3.96 6.81" rotation="-37.2 0 0"></a-entity>
+  </a-scene>
+</body></html>
