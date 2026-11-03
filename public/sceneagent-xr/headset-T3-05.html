@@ -1,0 +1,86 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>SceneAgent-XR headset test T3-05</title>
+<script src="vendor/aframe.min.js"></script>
+<script>
+AFRAME.registerComponent('fps-meter', {
+  init: function () { this.t = performance.now(); this.n = 0; this.hist = [];
+    this.loadMs = Math.round(performance.now()); },
+  tick: function () {
+    this.n++; var now = performance.now();
+    if (now - this.t >= 1000) {
+      var fps = this.n * 1000 / (now - this.t); this.hist.push(fps); if (this.hist.length > 10) this.hist.shift();
+      var avg = this.hist.reduce(function (a, b) { return a + b; }, 0) / this.hist.length;
+      var mode = this.el.sceneEl.is('vr-mode') ? 'VR' : 'desktop';
+      this.el.setAttribute('value', mode + ' | FPS ' + fps.toFixed(0) + ' | 10 s avg ' + avg.toFixed(0) +
+                           ' | loaded in ' + this.loadMs + ' ms');
+      this.n = 0; this.t = now; }
+  }
+});
+</script>
+</head>
+<body>
+  <a-scene renderer="antialias:true;colorManagement:true" shadow="type:pcfsoft" background="color:#dfe7ef"
+           vr-mode-ui="enabled:true" loading-screen="enabled:false" stats="false">
+    <a-entity light="type:ambient;intensity:0.65"></a-entity>
+    <a-entity light="type:directional;intensity:0.75;castShadow:true;shadowCameraLeft:-12;shadowCameraRight:12;shadowCameraTop:12;shadowCameraBottom:-12"
+              position="1.35 9.00 4.80"></a-entity>
+    <a-plane position="2.25 0 2.0" rotation="-90 0 0" width="4.5" height="4.0" color="#e9e4da" shadow="receive:true"></a-plane>
+    <a-plane position="2.25 1.5 0" width="4.5" height="3.0" color="#f4f1ea" shadow="receive:true"></a-plane>
+    <a-plane position="0 1.5 2.0" rotation="0 90 0" width="4.0" height="3.0" color="#efe9df" shadow="receive:true"></a-plane>
+    <a-plane position="4.5 1.5 2.0" rotation="0 -90 0" width="4.0" height="3.0" color="#efe9df" shadow="receive:true"></a-plane>
+    <a-box position="1 0.002 2.0" width="0.01" height="0.002" depth="4.0" color="#cfc8b8"></a-box><a-box position="2 0.002 2.0" width="0.01" height="0.002" depth="4.0" color="#cfc8b8"></a-box><a-box position="3 0.002 2.0" width="0.01" height="0.002" depth="4.0" color="#cfc8b8"></a-box><a-box position="4 0.002 2.0" width="0.01" height="0.002" depth="4.0" color="#cfc8b8"></a-box><a-box position="2.25 0.002 1" width="4.5" height="0.002" depth="0.01" color="#cfc8b8"></a-box><a-box position="2.25 0.002 2" width="4.5" height="0.002" depth="0.01" color="#cfc8b8"></a-box><a-box position="2.25 0.002 3" width="4.5" height="0.002" depth="0.01" color="#cfc8b8"></a-box><a-box position="2.25 0.002 4" width="4.5" height="0.002" depth="0.01" color="#cfc8b8"></a-box>
+        <a-entity id="bed_1" position="3.500 0.000 2.000" rotation="0 -0 0">
+      <a-box position="0.000 0.150 0.000" width="1.600" height="0.300" depth="2.000" color="#6b4f3a" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="0.000 0.400 0.050" width="1.540" height="0.200" depth="1.900" color="#8fa3bf" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="0.000 0.550 -0.750" width="1.120" height="0.100" depth="0.300" color="#ffffff" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="0.000 0.600 -0.970" width="1.600" height="0.600" depth="0.060" color="#6b4f3a" shadow="cast:true;receive:true" ></a-box>
+    </a-entity>
+    <a-entity id="wardrobe_1" position="0.600 0.000 2.000" rotation="0 -0 0">
+      <a-box position="0.000 1.000 0.000" width="1.200" height="2.000" depth="0.600" color="#7b5a3c" shadow="cast:true;receive:true" ></a-box>
+    </a-entity>
+    <a-entity id="bookshelf_1" position="2.100 0.000 3.700" rotation="0 -0 0">
+      <a-box position="0.000 0.900 0.000" width="0.900" height="1.800" depth="0.350" color="#8a5a33" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="0.000 0.360 0.180" width="0.828" height="0.020" depth="0.010" color="#5a3a20" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="0.000 0.720 0.180" width="0.828" height="0.020" depth="0.010" color="#5a3a20" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="0.000 1.080 0.180" width="0.828" height="0.020" depth="0.010" color="#5a3a20" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="0.000 1.440 0.180" width="0.828" height="0.020" depth="0.010" color="#5a3a20" shadow="cast:true;receive:true" ></a-box>
+    </a-entity>
+    <a-entity id="desk_1" position="3.200 0.000 3.700" rotation="0 -0 0">
+      <a-box position="0.000 0.725 0.000" width="1.200" height="0.050" depth="0.600" color="#b08a5a" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="-0.550 0.350 -0.250" width="0.050" height="0.700" depth="0.050" color="#5a4632" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="-0.550 0.350 0.250" width="0.050" height="0.700" depth="0.050" color="#5a4632" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="0.550 0.350 -0.250" width="0.050" height="0.700" depth="0.050" color="#5a4632" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="0.550 0.350 0.250" width="0.050" height="0.700" depth="0.050" color="#5a4632" shadow="cast:true;receive:true" ></a-box>
+    </a-entity>
+    <a-entity id="plant_1" position="0.800 0.000 3.700" rotation="0 -0 0">
+      <a-cylinder position="0 0.160 0" radius="0.140" height="0.320" color="#8b5a2b"></a-cylinder>
+      <a-sphere position="0 0.520 0" radius="0.200" color="#3f8f3f"></a-sphere>
+    </a-entity>
+    <a-entity id="armchair_1" position="1.800 0.000 2.000" rotation="0 -0 0">
+      <a-box position="0.000 0.220 0.050" width="0.800" height="0.440" depth="0.700" color="#b5651d" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="0.000 0.450 -0.300" width="0.800" height="0.900" depth="0.200" color="#b5651d" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="-0.320 0.320 0.050" width="0.160" height="0.640" depth="0.700" color="#b5651d" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="0.320 0.320 0.050" width="0.160" height="0.640" depth="0.700" color="#b5651d" shadow="cast:true;receive:true" ></a-box>
+    </a-entity>
+    <a-entity id="nightstand_1" position="3.500 0.000 3.200" rotation="0 -0 0">
+      <a-box position="0.000 0.275 0.000" width="0.500" height="0.550" depth="0.400" color="#a0785a" shadow="cast:true;receive:true" ></a-box>
+    </a-entity>
+    <a-entity id="book_1" position="3.400 0.550 3.200" rotation="0 -0 0">
+      <a-box position="0.000 0.020 0.000" width="0.200" height="0.040" depth="0.150" color="#c0392b" shadow="cast:true;receive:true" ></a-box>
+    </a-entity>
+    <a-entity id="lamp_1" position="3.700 0.550 3.200" rotation="0 -0 0">
+      <a-cylinder position="0 0.175 0" radius="0.03" height="0.350" color="#444"></a-cylinder>
+      <a-cone position="0 0.425 0" radius-bottom="0.150" radius-top="0.075" height="0.150" color="#f2df8c" material="emissive:#f2df8c;emissiveIntensity:0.4"></a-cone>
+      <a-cylinder position="0 0.02 0" radius="0.100" height="0.04" color="#444"></a-cylinder>
+    </a-entity>
+    <a-entity id="chair_1" position="2.000 0.000 0.800" rotation="0 -0 0">
+      <a-box position="0.000 0.450 0.000" width="0.450" height="0.060" depth="0.450" color="#556b8d" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="0.000 0.675 -0.195" width="0.450" height="0.450" depth="0.060" color="#556b8d" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="-0.195 0.225 -0.195" width="0.040" height="0.450" depth="0.040" color="#222" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="-0.195 0.225 0.195" width="0.040" height="0.450" depth="0.040" color="#222" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="0.195 0.225 -0.195" width="0.040" height="0.450" depth="0.040" color="#222" shadow="cast:true;receive:true" ></a-box>
+      <a-box position="0.195 0.225 0.195" width="0.040" height="0.450" depth="0.040" color="#222" shadow="cast:true;receive:true" ></a-box>
+    </a-entity>
+    <a-entity id="rig" position="2.25 0 3.40"><a-entity camera look-controls wasd-controls="acceleration:20" position="0 1.6 0"><a-text fps-meter value="measuring..." position="0 -0.28 -0.9" width="0.9" align="center" color="#111"></a-text></a-entity></a-entity>
+  </a-scene>
+</body></html>
