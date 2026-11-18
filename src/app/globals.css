@@ -217,3 +217,122 @@ input, textarea, select {
 .admin-btn:disabled {
   opacity: 0.5;
 }
+
+/* Career portal — the same tokens, switchable to a light palette per visitor.
+   Scoped to .theme-scope so the rest of the site stays dark. */
+.theme-scope {
+  background: var(--bg);
+  color: var(--fg);
+}
+.theme-scope[data-theme="light"] {
+  --bg: #f6f7fb;
+  --bg-2: #ffffff;
+  --panel: rgba(255, 255, 255, 0.82);
+  --panel-solid: #ffffff;
+  --line: rgba(14, 20, 38, 0.1);
+  --line-strong: rgba(14, 20, 38, 0.22);
+  --fg: #0d1222;
+  --muted: #566076;
+  --dim: #8b93a7;
+  --cyan: #0b9c82;
+  --violet: #5b4ee0;
+  --amber: #b06f10;
+  --rose: #d63a5c;
+  --danger: #d63a5c;
+  color-scheme: light;
+}
+
+.field {
+  width: 100%;
+  border-radius: 0.7rem;
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  padding: 0.65rem 0.8rem;
+  font-size: 0.95rem;
+  color: var(--fg);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.field:focus {
+  border-color: color-mix(in srgb, var(--cyan) 65%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--cyan) 16%, transparent);
+}
+.field-label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.7rem;
+  background: var(--fg);
+  color: var(--bg);
+  padding: 0.7rem 1.1rem;
+  font-size: 0.92rem;
+  font-weight: 500;
+  transition: opacity 0.15s, transform 0.15s;
+}
+.btn-primary:hover:not(:disabled) {
+  opacity: 0.88;
+}
+.btn-primary:disabled {
+  opacity: 0.55;
+}
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.7rem;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--fg);
+  padding: 0.65rem 1rem;
+  font-size: 0.92rem;
+  transition: border-color 0.15s, background 0.15s;
+}
+.btn-ghost:hover:not(:disabled) {
+  border-color: var(--line-strong);
+  background: color-mix(in srgb, var(--fg) 5%, transparent);
+}
+.card {
+  border-radius: 1rem;
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+}
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  padding: 0.2rem 0.65rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+/* The headline gradient is built for a dark background; light mode needs
+   darker stops to stay readable. */
+.theme-scope[data-theme="light"] .text-gradient {
+  background: linear-gradient(100deg, #0d1222 0%, #3a4578 30%, var(--cyan) 65%, var(--violet) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Icons that follow the career portal's current theme. */
+.theme-scope .theme-when-light {
+  display: none;
+}
+.theme-scope[data-theme="light"] .theme-when-light {
+  display: block;
+}
+.theme-scope[data-theme="light"] .theme-when-dark {
+  display: none;
+}
