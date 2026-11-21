@@ -13,7 +13,8 @@ An immersive portfolio built with Next.js 16, React Three Fiber and a small admi
 - **Qud-1 training kit** in `training/qud-1`: LoRA fine-tuning of Qud-1's own weights on a free Colab/Kaggle GPU, published to Hugging Face and served free from a Hugging Face Space. When `QUD1_BASE_URL` is set the site calls it first, falling back to the free providers below.
 - **VR Lab** at `/vr` (the headset button in the top bar and hero): a WebXR gallery (`@react-three/xr`) of the projects around a particle brain. On desktop you drag to look around and click a project to open it. In the Meta Quest browser, **Enter VR** lets you point at a project and pull the trigger to open it. On `localhost` a Quest 3 emulator is installed for testing.
 - **SEO and visibility:** sitemap, robots, per-page canonical URLs and share images (`opengraph-image`), schema.org JSON-LD (Person, WebSite, VideoGame/CreativeWork, ScholarlyArticle, SoftwareApplication, breadcrumbs), a page per publication at `/research/<id>` with Google Scholar `citation_*` tags, `/llms.txt` for AI assistants, and Vercel Analytics.
-- **Admin at `/admin`:** edit every section, upload images, videos and `.glb` models to Vercel Blob, read messages, and change credentials. Saving publishes immediately.
+- **Career portal at `/career`** (served at `career.diaspafra.org`): open roles, a three-step application that takes about a minute, CV upload, and an applicant dashboard with onboarding, weekly payout status and payout history. Light or dark, switchable. It shares this project's database.
+- **Admin at `/admin`:** edit every section, upload images, videos and `.glb` models to Vercel Blob, read messages, post job openings, read applications, record weekly payouts, and change credentials. Saving publishes immediately.
 
 ## Environment variables
 
@@ -25,6 +26,8 @@ An immersive portfolio built with Next.js 16, React Three Fiber and a small admi
 | `ADMIN_PASSWORD` | Initial admin password (8+ characters). Used once, on first login, to create the account. |
 | `ADMIN_USERNAME` | Optional. Initial admin username (default `admin`). |
 | `NEXT_PUBLIC_SITE_URL` | Optional. Canonical URL for metadata and API examples. |
+| `NEXT_PUBLIC_CAREER_URL` | Optional. Canonical URL of the career portal (default `https://career.diaspafra.org`). |
+| `NEXT_PUBLIC_CAREER_HOST` | Optional. Host(s) that serve the career portal at their root, comma-separated (default `career.diaspafra.org`; any `career.*` host also works). |
 | `GOOGLE_SITE_VERIFICATION` / `BING_SITE_VERIFICATION` | Optional. Verification codes from Google Search Console and Bing Webmaster Tools. |
 | `NEXT_PUBLIC_QUDMI_MODEL_URL` | Optional. QUDMI ONNX URL (defaults to the Hugging Face `quddusr/qudmi` weights). |
 | `QUD1_BASE_URL` / `QUD1_API_KEY` | Optional. Qud-1's own fine-tuned weights on a Hugging Face Space (`https://quddusr-qud-1.hf.space/v1`); tried first. See `training/qud-1`. `QUD1_START_TIMEOUT` (seconds, default 12) sets how long to wait for a sleeping Space. |
@@ -41,6 +44,22 @@ Without a database, the site renders the default content from `src/lib/seed.ts`.
 ## Admin
 
 The first login creates the admin account from `ADMIN_USERNAME` / `ADMIN_PASSWORD`. After that the password is stored hashed in the database, and you change it in **Admin → Settings**. The dashboard warns you until you replace the initial password.
+
+## Career portal
+
+The portal lives at `/career` in this same app and is rewritten to the root of the career domain by `src/proxy.ts`, so `career.diaspafra.org/apply` serves `/career/apply`. There are two ways to put it on its own domain — both share one database, because they share one `DATABASE_URL`:
+
+1. **Same Vercel project (simplest).** Add `career.diaspafra.org` as a domain on this project. Nothing else to configure.
+2. **Its own Vercel project.** Create a second project from this same repository, set `career.diaspafra.org` as its domain, and copy `DATABASE_URL`, `BLOB_READ_WRITE_TOKEN`, `AUTH_SECRET` and `ADMIN_PASSWORD` from the main project so both read and write the same tables and files. Set `AUTH_SECRET` explicitly on both.
+
+What the portal does:
+
+- `/career` lists every open role; `/career/jobs/<slug>` is the role page.
+- `/career/apply` collects, in three steps: full name, preferred name, WhatsApp contact, gender, email and password; country of origin and residence (all 250 countries), year of study, whether at least 6 hours a week is possible, how soon they can start; payout currency, payout option (PayPal, UPI, bank, Wise/Payoneer or "later"), and a CV upload. Submitting creates the account and files the application.
+- `/career/dashboard` shows the onboarding checklist, this week's payout and its status, the next Tuesday payout date, the amount paid to date, the hours logged, every application with its status, the full payout history, and an editor for their details.
+- **Admin → Openings** posts and edits roles; **Applications** lists everyone with their details, CV, a WhatsApp link, a status (submitted, reviewing, interview, hired, rejected), private notes and a CSV export; **Payouts** records a weekly payout per person or generates pending payouts for everyone marked hired, and flips each between pending, processing and paid.
+
+Career data lives in `career_jobs`, `career_applicants`, `career_applications` and `career_payouts`, created on first use like the rest of the schema. Applicant sessions use their own `qud_career` cookie, separate from the admin session.
 
 ## Development
 

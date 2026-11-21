@@ -5,16 +5,26 @@ import { SECTIONS } from "@/lib/admin-schema";
 import { getAdmin, usingDefaultPassword } from "@/lib/auth";
 import { readContent } from "@/lib/content";
 import { blobMode } from "@/lib/blob-config";
+import { ensureCareerSchema } from "@/lib/career-db";
 import { ensureSchema, hasDatabase, sql } from "@/lib/db";
 
 async function Overview() {
   const admin = (await getAdmin()) ?? "";
   const [content, defaultPw] = await Promise.all([readContent(), usingDefaultPassword(admin)]);
   let unread = 0;
+  let newApplications = 0;
+  let duePayouts = 0;
   if (hasDatabase()) {
     await ensureSchema();
-    const rows = (await sql()`SELECT count(*)::int AS n FROM messages WHERE read = false`) as { n: number }[];
-    unread = rows[0]?.n ?? 0;
+    await ensureCareerSchema();
+    const [msgs, apps, due] = await Promise.all([
+      sql()`SELECT count(*)::int AS n FROM messages WHERE read = false` as unknown as Promise<{ n: number }[]>,
+      sql()`SELECT count(*)::int AS n FROM career_applications WHERE status = 'submitted'` as unknown as Promise<{ n: number }[]>,
+      sql()`SELECT count(*)::int AS n FROM career_payouts WHERE status <> 'paid'` as unknown as Promise<{ n: number }[]>,
+    ]);
+    unread = msgs[0]?.n ?? 0;
+    newApplications = apps[0]?.n ?? 0;
+    duePayouts = due[0]?.n ?? 0;
   }
   const blob = blobMode();
 
@@ -41,11 +51,19 @@ async function Overview() {
       )}
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Link href="/admin/applications" className="rounded-2xl border border-line bg-bg-2 p-5 transition hover:border-line-strong">
+          <div className="mono-label">New applications</div>
+          <div className="mt-2 font-display text-4xl font-semibold text-violet">{newApplications}</div>
+        </Link>
+        <Link href="/admin/payouts" className="rounded-2xl border border-line bg-bg-2 p-5 transition hover:border-line-strong">
+          <div className="mono-label">Payouts due</div>
+          <div className="mt-2 font-display text-4xl font-semibold text-amber">{duePayouts}</div>
+        </Link>
         <Link href="/admin/messages" className="rounded-2xl border border-line bg-bg-2 p-5 transition hover:border-line-strong">
           <div className="mono-label">Unread messages</div>
           <div className="mt-2 font-display text-4xl font-semibold text-cyan">{unread}</div>
         </Link>
-        {(["projects", "publications", "people"] as const).map((k) => (
+        {(["projects", "publications"] as const).map((k) => (
           <Link key={k} href={`/admin/${k}`} className="rounded-2xl border border-line bg-bg-2 p-5 transition hover:border-line-strong">
             <div className="mono-label">{SECTIONS.find((s) => s.key === k)?.label}</div>
             <div className="mt-2 font-display text-4xl font-semibold">{content[k].length}</div>
